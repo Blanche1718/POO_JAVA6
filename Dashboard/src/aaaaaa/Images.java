@@ -47,7 +47,7 @@ public class Images {
 
 			System.out.println ("Description :"+ description);
 
-			System.out.println ("Nombres de Likes:"+ likes);s
+			System.out.println ("Nombres de Likes:"+ likes);
 
 			System.out.println ("Statut: "+ approuved );
 		}
