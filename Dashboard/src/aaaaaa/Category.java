@@ -14,22 +14,20 @@ public class Category {
 	private String description;
 	private int created_by;
 	private List<Image> images;
+	private static int next_id=1;
 	
 	//Constructeurs
-	public Category(int ident,String nom,String titre,String desc,int etr) {
-		id = ident;
+	public Category(String nom,String titre,String desc,int etr) {
 		name = nom;
 		title = titre;
 		description = desc;
 		created_by = etr;
+		id = next_id++;
 		images = new ArrayList<>();
 	}
 	
 	
 	//Setters
-	public void set_id(int ident) {
-		id = ident;
-	}
 	
 	public void set_name(String nom) {
 		name = nom;
@@ -79,7 +77,17 @@ public class Category {
     }
 	
 	public static void main(String[] args) {
-
+		
+		/*Scanner sc = new Scanner(System.in);
+		
+		Category cat1 = new Category("Voiture","voiture_courses","blabla",2);
+		Category cat2 = new Category("Maison","Appartement","blabla",2);
+		int id1 = cat1.get_id();
+		int id2 = cat2.get_id();
+		
+		System.out.println(id1);
+		System.out.println(id2);*/
+		 
 	}
 
 }
