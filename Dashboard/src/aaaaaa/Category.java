@@ -13,7 +13,7 @@ public class Category {
 	private String title;
 	private String description;
 	private int created_by;
-	private List<Image> images;
+	private List<Images> images;
 	private static int next_id=1;
 	
 	//Constructeurs
@@ -45,6 +45,7 @@ public class Category {
 		created_by = etr;
 	}
 	
+	
 	//Getters
 	public int get_id()
 	{
@@ -68,11 +69,11 @@ public class Category {
     }
 	
 	//Autres méthodes
-	public void addImage(Image image) {
+	public void addImage(Images image) {
         images.add(image);
     }
 	
-	public List<Image> getImages() {
+	public List<Images> getImages() {
         return images;
     }
 	
@@ -82,11 +83,16 @@ public class Category {
 		
 		Category cat1 = new Category("Voiture","voiture_courses","blabla",2);
 		Category cat2 = new Category("Maison","Appartement","blabla",2);
+		Category cat3 = new Category("Maison","Appartement","blabla",2);
+		
 		int id1 = cat1.get_id();
 		int id2 = cat2.get_id();
+		int id3 = cat3.get_id();
 		
 		System.out.println(id1);
-		System.out.println(id2);*/
+		System.out.println(id2);
+		System.out.println(id3);*/
+		
 		 
 	}
 
