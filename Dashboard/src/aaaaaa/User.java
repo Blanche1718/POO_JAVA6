@@ -60,20 +60,33 @@ public class User {
 		System.out.println("Image ajoutée aux Likes :"+image.getTitle());
 	}
 
-	public void ShowGalerie(){
+	/*public void ShowGalerie(){
 		System.out.println("Galerie de  :"+username);
 		for (Images image : galerie){
 			image.showDetails();
 			System.out.println("***********************************");
 		}
-	}
+	}*/
 	
-	public void ShowFavorites(){
-		System.out.println("Favoris de  :"+username);
-		for (Images image : favoris){
-			image.showDetails();
+	public void ShowGalerie() {
+		System.out.println("Contenu de la galerie '" +galerie+ "' :" );
+		for (Images image : galerie) {
+			System.out.println("- " +image.getTitle()+ " (" +image.getName()+ ")");
 			System.out.println("***********************************");
 		}
 	}
+	
+	public void ShowFavorites() {
+		System.out.println("Images favorites de l'utilisateur" + idUser + ":");
+		if (favoris.isEmpty()) {
+			System.out.println("Aucune images dans les favoris.");
+			} else {
+				for (Images image : favoris) {
+					System.out.println("-"+ image.getTitle() + "(" + image.getName()+")");
+					System.out.println("***********************************");
+				}
+			}
+	}
+
 	
 }

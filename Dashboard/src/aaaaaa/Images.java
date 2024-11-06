@@ -9,6 +9,7 @@ public class Images {
 		private String description;
 		private int likes;
 		private boolean approuved; 
+		private int nb_downloads=0;
 
 
 		
@@ -88,7 +89,7 @@ public class Images {
 			return likes;
 		}
 		
-		public void setLikes(int likes) {
+		public void setLikes() {
 			this.likes++ ;
 		}
 		
@@ -99,6 +100,14 @@ public class Images {
 		public void setApprouved(Boolean approuved) {
 			this.approuved = approuved;
 		}
+		
+		public void set_download(){
+			nb_downloads++;
+		}
+		public int getDownload(){
+			return nb_downloads;
+		}
+				
 		
 		
 }
