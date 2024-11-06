@@ -41,7 +41,7 @@ public class Galerie {
 		}
 		
 		//Méthode
-		public void afficherImages() {
+		public void ShowImages() {
 			System.out.println("Contenu de la galerie '" +nameGalerie+ "' :" );
 			for (Images image : images) {
 				System.out.println("- " +image.getTitle()+ " (" +image.getName()+ ")");

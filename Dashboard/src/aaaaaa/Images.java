@@ -72,7 +72,7 @@ public class Images {
 		public void setTitle(String title) {
 			this.title = title;
 		}
-		
+	
 		//Getters et Setters pour l'atribut description
 				
 		public String getDescription() {

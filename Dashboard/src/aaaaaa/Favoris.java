@@ -26,19 +26,19 @@ public class Favoris {
 		
 		
 		//Setters
-		public void setidUser(int idUser) {
+		/*public void setidUser(int idUser) {
 			this.idUser = idUser;
-		}
+		}*/
 		
 		
 		//Méthode pour ajouter une image aux Favoris
-		public void ajouterImageFavoris(Images image) {
+		public void AddFavorites(Images image) {
 				imagesFavorites.add(image);
 				System.out.println("Image ajoutée aux favoris:" +image.getTitle());
 		}
 		
 		//Méthode pour afficher toutes les images Favorites
-		public void afficherImagesFavorites() {
+		public void ShowFavorites() {
 			System.out.println("Images favorites de l'utilisateur" + idUser + ":");
 			if (imagesFavorites.isEmpty()) {
 				System.out.println("Aucune images dans les favoris.");

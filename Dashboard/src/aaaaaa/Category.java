@@ -13,7 +13,7 @@ public class Category {
 	private String title;
 	private String description;
 	private int created_by;
-	private List<Image> images;
+	private List<Images> images;
 	
 	//Constructeurs
 	public Category(int ident,String nom,String titre,String desc,int etr) {
@@ -70,16 +70,14 @@ public class Category {
     }
 	
 	//Autres méthodes
-	public void addImage(Image image) {
+	public void addImage(Images image) {
         images.add(image);
     }
 	
-	public List<Image> getImages() {
+	public List<Images> getImages() {
         return images;
     }
 	
-	public static void main(String[] args) {
-
-	}
+	
 
 }
