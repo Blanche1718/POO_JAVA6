@@ -3,24 +3,25 @@ package aaaaaa;
 public class Images {
 		
 		private final int id;//final pour rendre id imodifiable
-		private final int owner_id;
 		private String name;
 		private String title;
 		private String description;
-		private int likes;
+		//private int likes;
 		private boolean approuved; 
-		private int nb_downloads=0;
+		//private int nb_downloads=0;
+		private static int next_id=1;//
 
 
 		
 		
 		//Constructor
-		public Images (int id, int owner_id ,String name,String title,String description,int likes,boolean approuved) {
-			this.id = id;//le id des attributs prends la valeur du paramètre id
-			this.owner_id = owner_id;
+		public Images (String name,String title,String description,boolean approuved) {
+		
+			this.id = next_id++;
 			this.name = name;//on affecte la valeur du paramètre name à l'attribut name
 			this.title = title;
 			this.description = description;
+			this.approuved=approuved;
 		}
 
 
@@ -31,24 +32,22 @@ public class Images {
 			return id;
 		}
 		
-		public int getOwner_id() {
+		/*public int getOwner_id() {
 			return owner_id;
-		}
+		}*/
 		
 		
 		//Methode pour afficher les détails de l'image
 		public void showDetails() {
 			System.out.println ("ID: " + id );
-			
-			System.out.println ("Propriétaire :" + owner_id);
 
 			System.out.println ("Nom :" + name);
-
-			System.out.println ("Titre: "+ title);
-
+			
+			System.out.println ("Titre :"+ title);
+			
 			System.out.println ("Description :"+ description);
 
-			System.out.println ("Nombres de Likes:"+ likes);
+			//System.out.println ("Nombres de Likes:"+ likes);
 
 			System.out.println ("Statut: "+ approuved );
 		}
@@ -85,13 +84,13 @@ public class Images {
 		}
 		
 		
-		public int getLikes() {
+		/*public int getLikes() {
 			return likes;
 		}
 		
 		public void setLikes() {
 			this.likes++ ;
-		}
+		}*/
 		
 		public boolean getApprouved() {
 			return approuved;
@@ -101,12 +100,12 @@ public class Images {
 			this.approuved = approuved;
 		}
 		
-		public void set_download(){
+		/*public void set_download(){
 			nb_downloads++;
 		}
 		public int getDownload(){
 			return nb_downloads;
-		}
+		}*/
 				
 		
 		

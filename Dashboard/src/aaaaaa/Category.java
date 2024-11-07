@@ -1,6 +1,5 @@
 package aaaaaa;
 
-import java.util.Scanner;
 import java.util.ArrayList; 
 import java.util.List;
 
@@ -10,7 +9,7 @@ public class Category {
 	
 	private int id;
 	private String name;
-	private String title;
+	//private String title;
 	private String description;
 	private List<Images> images;
 
@@ -18,12 +17,12 @@ public class Category {
 
 	
 	//Constructeurs
-	public Category(String nom,String titre,String desc) {
-		name = nom;
-		title = titre;
-		description = desc;
-		id = next_id++;
-		images = new ArrayList<>();
+	public Category(String nom,String desc) {
+		this.name = nom;
+		//title = titre;
+		this.description = desc;
+		this.id = next_id++;
+		this.images = new ArrayList<>();
 	}
 	
 	
@@ -33,9 +32,9 @@ public class Category {
 		name = nom;
 	}
 	
-	public void set_title(String titre) {
+	/*public void set_title(String titre) {
 		title = titre;
-	}
+	}*/
 	
 	public void set_description(String desc) {
 		description = desc;
@@ -54,9 +53,9 @@ public class Category {
         return name;
     }
 
-    public String getTitle() {
+    /*public String getTitle() {
         return title;
-    }
+    }*/
 
     public String getDescription() {
         return description;
