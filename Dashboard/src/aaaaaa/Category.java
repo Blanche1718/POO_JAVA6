@@ -12,19 +12,16 @@ public class Category {
 	private String name;
 	private String title;
 	private String description;
-	private int created_by;
 	private List<Images> images;
-<<<<<<< HEAD
-=======
+
 	private static int next_id=1;
->>>>>>> 7bbcdc8a0a698769ce0e2ed22eba9e2b537d0280
+
 	
 	//Constructeurs
-	public Category(String nom,String titre,String desc,int etr) {
+	public Category(String nom,String titre,String desc) {
 		name = nom;
 		title = titre;
 		description = desc;
-		created_by = etr;
 		id = next_id++;
 		images = new ArrayList<>();
 	}
@@ -44,9 +41,7 @@ public class Category {
 		description = desc;
 	}
 	
-	public void set_created_by(int etr) {
-		created_by = etr;
-	}
+	
 	
 	
 	//Getters
@@ -67,9 +62,7 @@ public class Category {
         return description;
     }
 
-    public int getCreatedBy() {
-        return created_by;
-    }
+    
 	
 	//Autres méthodes
 	public void addImage(Images image) {
@@ -80,27 +73,14 @@ public class Category {
         return images;
     }
 	
-<<<<<<< HEAD
+
 	
-=======
+
 	public static void main(String[] args) {
 		
-		/*Scanner sc = new Scanner(System.in);
 		
-		Category cat1 = new Category("Voiture","voiture_courses","blabla",2);
-		Category cat2 = new Category("Maison","Appartement","blabla",2);
-		Category cat3 = new Category("Maison","Appartement","blabla",2);
-		
-		int id1 = cat1.get_id();
-		int id2 = cat2.get_id();
-		int id3 = cat3.get_id();
-		
-		System.out.println(id1);
-		System.out.println(id2);
-		System.out.println(id3);*/
 		
 		 
 	}
->>>>>>> 7bbcdc8a0a698769ce0e2ed22eba9e2b537d0280
 
 }

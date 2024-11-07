@@ -1,4 +1,4 @@
-package aaaaaa;
+/*package aaaaaa;
 
 import java.util.*;
 
@@ -28,7 +28,7 @@ public class Favoris {
 		//Setters
 		/*public void setidUser(int idUser) {
 			this.idUser = idUser;
-		}*/
+		}
 		
 		
 		//Méthode pour ajouter une image aux Favoris
@@ -50,4 +50,5 @@ public class Favoris {
 		}
 	
 
-}
+}*/
+

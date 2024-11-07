@@ -3,7 +3,7 @@ package aaaaaa;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dashboard {
+/*public class Dashboard {
     public static void main(String[] args) {
         
         Images img1 = new Images(2, 2, "photo1.jpg", "Vacances", "Photo de vacances à la plage", 23, true);
@@ -30,13 +30,15 @@ public class Dashboard {
         images.add(img2);
         admin.ShowStatistics(images);
     }
-}
+}*/
 
-/*import java.util.Scanner;
+import java.util.Scanner;
 
 public class Dashboard {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        
+        Admin admin = new Admin(1,"Admin", "admin@example.com");
 
         // Création d'un objet Image avec un chemin fictif
 
@@ -47,7 +49,7 @@ public class Dashboard {
         while (!exit) {
             System.out.println("\n--- Menu ---");
             System.out.println("Welcome to the Dashboard of our images download application. View the option that you have : ");
-            System.out.println("1. Afficher les informations de l'image");
+            System.out.println("1. Gestion de catégories");
             System.out.println("2. Ajouter un utilisateur");
             System.out.println("3. Mofifier un utilisateur");
             System.out.println("4. Supprimer un utilisateur");
@@ -61,10 +63,22 @@ public class Dashboard {
 
             switch (choix) {
                 case 1:
-                    // Afficher les informations de l'image
-                    System.out.println(image);
+                	System.out.println("1. Ajouter une catégorie");
+                    System.out.println("2. Editer une catégorie");
+                    System.out.println("3. Supprimer une catégorie");
+                    
+                    System.out.print("Sélectionnez une option : ");
+                    int option = scanner.nextInt();
+                    switch (option) {
+                    case 1:
+                    	admin.CreateCategory();	
+                    	break;
+                    case 2:
+                    	admin.EditCategory();
+                    	break;
+                    }
                     break;
-                case 2:
+                /*case 2:
                     
                     break;
                 case 3:
@@ -84,7 +98,7 @@ public class Dashboard {
                     // Quitter le programme
                     System.out.println("Au revoir !");
                     exit = true;
-                    break;
+                    break,*/
                 default:
                     System.out.println("Option invalide. Veuillez réessayer.");
             }
@@ -92,7 +106,7 @@ public class Dashboard {
 
         scanner.close();
     }
-}*/
+}
 
 
 
