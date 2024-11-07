@@ -12,6 +12,7 @@ public class Statistics {
     private int totalUploads;
     private int totalUsers;
     
+    
     /**
      * Classe interne pour stocker les informations d'une image
      * Implement Comparable pour pouvoir trier les images par nombre de téléchargements

@@ -11,103 +11,82 @@ import java.util.Collections;
 
 public class Statistics {
    
-    private int totalUploads;
-    private int totalUsers;
-    
-    /**
-     * Classe interne pour stocker les informations d'une image
-     * Implement Comparable pour pouvoir trier les images par nombre de téléchargements
+	//Attributs
+	
+    private int totalDownloads; // Nombre total de téléchargements
+    private int totalUsers; // Nombre total d'utilisateurs
+
+    private List <Image> mostDownloadedImages =  new ArrayList<>();
+    private Map<String, Integer> downloadsByCategory;     // Map qui stocke le nombre de téléchargements par catégorie
+    private double likesPerImage;     // Moyenne des likes par image
+    private static Statistics instance;  // Attribut static pour stocker l'instance unique de la classe
+    /* L'attribut "instance" est un attribut static qui contient l'instance unique de la classe Statistics.
+     *  Il est déclaré private pour empêcher l'accès direct en dehors de la classe.
      */
-    private static class ImageStats implements Comparable<ImageStats> {
-        private String id;
-        private String title;
-        private int downloads;
-        
-        public ImageStats(String id, String title, int downloads) {
-            this.id = id;
-            this.title = title;
-            this.downloads = downloads;
-        }
-        
-        @Override
-        public int compareTo(ImageStats other) {
-            // Ordre décroissant pour avoir les plus téléchargées en premier
-            return Integer.compare(other.downloads, this.downloads);
-        }
-    }
     
-    // File de priorité limitée aux 5 images les plus téléchargées
-    private PriorityQueue<ImageStats> mostDownloadedImages;
-    private static final int MAX_TOP_IMAGES = 5;
     
-    // Map qui stocke le nombre de téléchargements par catégorie
-    private Map<String, Integer> downloadsByCategory;
     
-    // Moyenne des likes par image
-    private double likesPerImage;
     
-    /**
-     * Constructeur de la classe Statistics
-     * Initialise les différents attributs avec des valeurs par défaut
-     */
-    public Statistics() {
-        this.totalUploads = 0;
+    // Constructeur
+    
+    private Statistics() {  // Le constructeur est privé pour empêcher l'instanciation directe en dehors de la classe
+        this.totalDownloads = 0;
         this.totalUsers = 0;
-        this.mostDownloadedImages = new PriorityQueue<>();
-        this.downloadsByCategory = new HashMap<>();
+        this.mostDownloadedImages = new ArrayList<>();
+        this.downloadsByCategory = new HashMap<>(); 
         this.likesPerImage = 0.0;
     }
     
-    /**
-     * Met à jour les statistiques d'une image et maintient à jour le top 5
-     * @param id L'identifiant de l'image
-     * @param title Le titre de l'image
-     * @param downloads Le nombre de téléchargements
-     */
-    public void updateImageStats(String id, String title, int downloads) {
-        // Créer une nouvelle instance d'ImageStats
-        ImageStats newImage = new ImageStats(id, title, downloads);
-        
-        // Retirer l'ancienne version de cette image si elle existe
-        mostDownloadedImages.removeIf(img -> img.id.equals(id));
-        
-        // Ajouter la nouvelle version
-        mostDownloadedImages.offer(newImage);
-        
-        // Maintenir seulement les 5 meilleures images
-        while (mostDownloadedImages.size() > MAX_TOP_IMAGES) {
-            mostDownloadedImages.poll();
+   
+    
+    //Getteurs-Acesseurs
+    
+   
+    public static Statistics getInstance() { // Méthode pour récupérer l'instance unique de Statistics
+        // Si l'instance n'existe pas encore, on la crée
+        if (instance == null) {
+            instance = new Statistics();
         }
+        // Retourne l'instance unique
+        return instance;
     }
     
-    /**
-     * Retourne les 5 images les plus téléchargées, triées par nombre de téléchargements décroissant
-     * @return Une liste de Maps contenant les informations des images
-     */
-    public List<Map<String, Object>> getMostDownloadedImages() {
-        List<Map<String, Object>> result = new ArrayList<>();
-        List<ImageStats> sortedImages = new ArrayList<>(mostDownloadedImages);
-        Collections.sort(sortedImages); // Trie selon compareTo défini dans ImageStats
-        
-        for (ImageStats img : sortedImages) {
-            Map<String, Object> imageInfo = new HashMap<>();
-            imageInfo.put("id", img.id);
-            imageInfo.put("title", img.title);
-            imageInfo.put("downloads", img.downloads);
-            result.add(imageInfo);
-        }
-        
-        return result;
+    public List<Image> getMostDownloadedImages() {  // Accéder à la liste des 5 images les plus téléchargées
+        return mostDownloadedImages;
     }
     
-    /**
-     * Met à jour le nombre total d'uploads
-     * @param count Le nouveau nombre total d'uploads
-     */
-    public void setTotalUploads(int count) {
-        this.totalUploads = count;
+    public int getTotalDownloads() {
+        return totalDownloads;
     }
     
+    public int getTotalUsers() {
+        return totalUsers;
+    }
+    
+    public Map<String, Integer> getDownloadsByCategory() {
+        return new HashMap<>(downloadsByCategory);
+    }
+    
+    public double getLikesPerImage() {
+        return likesPerImage;
+    }
+    
+    
+    //Autres méthodes
+    
+    public void updateMostDownloadedImages() {  // Mettre à jour la liste des 5 images les plus téléchargées
+    	// Récupérer toutes les images
+    	List<Image> listImages = Image.getAllImages();  // getAllImages est une méthode de la classe Image
+    	 // Trier les images par nombre de téléchargements (en ordre décroissant)
+    	mostDownloadedImages = listImages.stream()  // Crée un Stream des images pour mieux pouvoir les manipuler
+    			            .sorted(Comparator.comparingInt(Image::getDownloads).reversed()) //Trie par téléchargements (décroissant)
+    			            .limit(5)  // Garde seulement les 5 premières images
+    			            .collect(Collectors.toList()); // Convertit le Stream en une liste
+    	
+   }
+    
+    
+
     /**
      * Met à jour le nombre total d'utilisateurs
      * @param count Le nouveau nombre total d'utilisateurs
@@ -139,19 +118,11 @@ public class Statistics {
     
     // Getters
     
-    public int getTotalUploads() {
-        return totalUploads;
-    }
+  
     
-    public int getTotalUsers() {
-        return totalUsers;
-    }
-    
-    public Map<String, Integer> getDownloadsByCategory() {
-        return new HashMap<>(downloadsByCategory);
-    }
-    
-    public double getLikesPerImage() {
-        return likesPerImage;
+    public void displayAllImages() {
+    	for (Image image : Image.getAllImages()) {
+    		System.out.println("Image ID :" +Image.getID() + ", Name :" + Image.getName());
+    	}
     }
 }
