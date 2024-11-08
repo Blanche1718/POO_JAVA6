@@ -14,6 +14,7 @@ public class Category {
 	private List<Images> images;
 
 	private static int next_id=1;
+	private static List<Category> allCategories = new ArrayList<>();
 
 	
 	//Constructeurs
@@ -23,6 +24,7 @@ public class Category {
 		this.description = desc;
 		this.id = next_id++;
 		this.images = new ArrayList<>();
+		allCategories.add(this);//Ajoute chaque catégorie créée à la liste
 	}
 	
 	
@@ -60,6 +62,12 @@ public class Category {
     public String getDescription() {
         return description;
     }
+    
+    // Méthode pour obtenir toutes les categories
+    public static List<Category> getAllCategories() {
+        return new ArrayList<>(allCategories); // Retourne une copie pour éviter les modifications directes
+    }
+	
 
     
 	

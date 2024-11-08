@@ -14,6 +14,7 @@ public class User {
     private List<Images> favoris;
     private List<Images> like;
     private boolean restricted = false;
+    private static List<User> allUsers = new ArrayList<>(); // Liste pour stocker tous les users
 
     Scanner scanner = new Scanner(System.in);
 
@@ -25,9 +26,16 @@ public class User {
         this.galerie = new ArrayList<>();
         this.favoris = new ArrayList<>();
         this.like = new ArrayList<>();
+        allUsers.add(this); //Ajouter chaque utilisateur à la liste
     }
 
     // Getters
+    
+    
+    public static List<User> getAllUsers() {
+    	return new ArrayList<>(allUsers);
+    }
+    
     public int getIdUser() {
         return idUser;
     }
@@ -63,9 +71,24 @@ public class User {
     }
 
     // Methods
+    
+    
+  
+	public void showUserDetails() { //Methode pour afficher les détails de l'utilisateurs
+		System.out.println ("ID: " + idUser );
+
+		System.out.println ("Nom :" + username);
+		
+		System.out.println ("Email:"+ email);
+		
+		System.out.println ("Restreint:"+ restricted);
+
+	}
+  		
 
     public void addImage(Images image) {
         galerie.add(image);
+        image.incrementDownloads();  // Incrémente les téléchargements de l'image
         System.out.println("Image ajoutée à la galerie : " + image.getTitle());
     }
 
@@ -81,6 +104,7 @@ public class User {
     public void addLike(Images image) {
         if (!like.contains(image)) {
             like.add(image);
+            image.incrementLikes();
             System.out.println("Image ajoutée aux Likes : " + image.getTitle());
         } else {
             System.out.println("L'image est déjà likée.");

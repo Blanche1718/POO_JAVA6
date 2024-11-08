@@ -3,6 +3,8 @@ package aaaaaa;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Map;
+
 
 public class Admin extends User {
     private static List<Category> categories;
@@ -328,5 +330,43 @@ public class Admin extends User {
         } else {
             System.out.println("Cette image n'existe pas");
         }
+    }
+    
+    
+    
+    
+    // Méthode pour afficher les statistiques de manière stylisée
+    public void displayStatistics() {
+        Statistics stats = Statistics.getInstance();  // Obtenir l'instance unique de Statistics
+
+        // Début de l'encadré
+        System.out.println("********** STATISTICS **********");
+
+        // Afficher le nombre total de téléchargements
+        System.out.println("* Total Downloads: " + stats.getTotalDownloads() + "          *");
+
+        // Afficher le nombre total d'utilisateurs
+        System.out.println("* Total Users: " + stats.getTotalUsers() + "                  *");
+
+        // Afficher les cinq images les plus téléchargées
+        System.out.println("* Most Downloaded Images:        *");
+        for (Images img : stats.getMostDownloadedImages()) {
+            System.out.println("* - " + img.getName() + ": " + img.getDownloads() + " downloads    *");
+        }
+
+        // Afficher les téléchargements par catégorie
+        System.out.println("* Downloads by Category:         *");
+        for (Map.Entry<String, Integer> entry : stats.getDownloadsByCategory(Category.getAllCategories()).entrySet()) {
+            System.out.println("* - " + entry.getKey() + ": " + entry.getValue() + " downloads    *");
+        }
+
+        // Afficher les likes par image
+        System.out.println("* Likes per Image:               *");
+        for (Map.Entry<String, Integer> entry : stats.getLikesPerImage().entrySet()) {
+            System.out.println("* - " + entry.getKey() + ": " + entry.getValue() + " likes       *");
+        }
+
+        // Fin de l'encadré
+        System.out.println("**********************************");
     }
 }

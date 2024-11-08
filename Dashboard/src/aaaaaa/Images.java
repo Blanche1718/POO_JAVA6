@@ -1,4 +1,6 @@
 package aaaaaa;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Images {
 		
@@ -6,10 +8,11 @@ public class Images {
 		private String name;
 		private String title;
 		private String description;
-		//private int likes;
+		private int likes=0;
 		private boolean approuved; 
-		//private int nb_downloads=0;
+		private int downloads=0;
 		private static int next_id=1;//
+		private static List<Images> allImages = new ArrayList<>(); // Liste pour stocker toutes les images
 
 
 		
@@ -22,6 +25,9 @@ public class Images {
 			this.title = title;
 			this.description = description;
 			this.approuved=approuved;
+			this.downloads = 0;
+			this.likes = 0;
+			allImages.add(this);// Ajoute chaque image créé dans la liste
 		}
 
 
@@ -52,8 +58,14 @@ public class Images {
 			System.out.println ("Statut: "+ approuved );
 		}
 		
+		// Méthode pour obtenir toutes les images
+	    public static List<Images> getAllImages() {
+	        return new ArrayList<>(allImages); // Retourne une copie pour éviter les modifications directes
+	    }
+		
 		//Getters et Setters pour l'atribut Name
 		
+	
 		public String getName() {
 			return name;
 		}
@@ -100,12 +112,24 @@ public class Images {
 			this.approuved = approuved;
 		}
 		
-		/*public void set_download(){
-			nb_downloads++;
+		// Méthode pour incrémenter le nombre de téléchargements
+	    public void incrementDownloads() {
+	        this.downloads++;
+	    }
+	    
+		
+		public int getDownloads(){
+			return downloads;
 		}
-		public int getDownload(){
-			return nb_downloads;
-		}*/
+		
+		//Méthode pour incrémenter le nombre de like
+		public void incrementLikes() {
+			this.likes++;
+		}
+		
+		public int getLikes() {
+			return likes;
+		}
 				
 		
 		
