@@ -56,15 +56,19 @@ public class Dashboard {
         System.out.println("2. Editer une catégorie");
         System.out.println("3. Supprimer une catégorie");
         System.out.println("4. Consulter la liste des catégories");
+        System.out.println("5. Ajouter une image a une catégorie");
+        System.out.println("6. Consulter les images dans une catégorie");
         System.out.println("0. Quitter");
 
-        int option1 = getValidChoice(scanner, 0, 4);
+        int option1 = getValidChoice(scanner, 0, 6);
         
         switch (option1) {
             case 1: admin.CreateCategory(scanner); break;
             case 2: admin.EditCategory(scanner); break;
             case 3: admin.DeleteCategory(scanner); break;
             case 4: admin.CategoryList(); break;
+            case 5: admin.AddImagetoCategory(scanner); break;
+            case 6: admin.ShowImageinCategory(scanner); break;
             case 0: break;
         }
     }

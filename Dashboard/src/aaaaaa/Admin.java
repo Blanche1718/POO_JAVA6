@@ -120,6 +120,70 @@ public class Admin extends User {
             }
         }
     }
+    
+    //Put Images in categories
+    public void AddImagetoCategory(Scanner scanner)
+    {
+    	CategoryList();
+    	System.out.println("Choisissez la categorie");
+    	String catName = scanner.nextLine();
+    	Category newCategory = findCategoryByName(catName);
+    	
+    	if(newCategory == null)
+    	{
+    		System.out.println("Cette categorie n'existe pas");
+    	}
+    	
+    	ImagesList();
+    	System.out.println("Choisissez l'image");
+    	String ImgName = scanner.nextLine();
+    	Images newImage = findImageByName(ImgName);
+    	
+    	if(newImage == null)
+    	{
+    		System.out.println("Cette image n'existe pas");
+    	}
+    	
+    	List<Images> liImage = newCategory.getImages(); 
+    	
+    	boolean imageExists = false;
+    	for(Images image : liImage)
+    	{
+    		if(image.getName().equals(ImgName))
+    			imageExists = true;
+            	break; 
+    	}
+    		
+    	if (imageExists) {
+            System.out.println("L'image est déjà dans la catégorie.");
+        } else {
+            newCategory.addImage(newImage);
+            System.out.println("Image " + newImage.getName() + " ajoutée à " + newCategory.getName() );
+        	saveAllData();
+        	}
+    	
+    }
+    
+    //Afficher les images d'une categorie
+    public void ShowImageinCategory(Scanner scanner)
+    {
+    	CategoryList();
+    	System.out.println("Entrez le nom de  la categorie");
+    	String catName = scanner.nextLine();
+    	Category newCategory = findCategoryByName(catName);
+    	
+    	if(newCategory == null)
+    	{
+    		System.out.println("Cette categorie n'existe pas");
+    	}
+    	
+    	System.out.println("Liste des images dans " + newCategory.getName());
+    	
+    	for(Images image : newCategory.getImages())
+    	{
+    		System.out.println("-" + image.getName());
+    	}
+    }
 
     
     
@@ -209,6 +273,14 @@ public class Admin extends User {
     public void ImagessoumisesList() {
     	System.out.println("Liste des Images soumises :");
         for (Images image : images_soumises) {
+            System.out.println("- " + image.getName());
+        }
+    }
+    
+ // List Images soumises
+    public void ImagesList() {
+    	System.out.println("Liste des Images soumises :");
+        for (Images image : images) {
             System.out.println("- " + image.getName());
         }
     }
@@ -536,15 +608,26 @@ public class Admin extends User {
     
     public void saveCategoriesToCSV() {
         try (PrintWriter writer = new PrintWriter(new FileWriter("categories.csv"))) {
-            writer.println("Name,Description"); // En-tête
+            writer.println("Name,Description,Images"); // En-tête avec une colonne pour les images
             for (Category category : categories) {
-                writer.printf("%s,%s%n", category.getName(), category.getDescription());
+                StringBuilder imageNames = new StringBuilder();
+                List<Images> images = category.getImages();
+                for (Images image : images) {
+                    imageNames.append(image.getName()).append(";"); // Séparer les noms d'images par un point-virgule
+                }
+                if (imageNames.length() > 0) {
+                    imageNames.deleteCharAt(imageNames.length() - 1); // Supprimer le dernier point-virgule
+                }
+
+                writer.printf("%s,%s,%s%n", category.getName(), category.getDescription(), imageNames.toString());
             }
-            System.out.println("Les catégories ont été sauvegardées dans categories.csv.");
+            System.out.println("Les catégories et les images ont été sauvegardées dans categories.csv.");
         } catch (IOException e) {
             System.out.println("Erreur lors de la sauvegarde des catégories : " + e.getMessage());
         }
     }
+
+
     
     public void saveImagesToCSV() {
         try (PrintWriter writer = new PrintWriter(new FileWriter("images.csv"))) {
@@ -593,24 +676,49 @@ public class Admin extends User {
     }
     
     public void loadCategoriesFromCSV() {
-    	categories.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader("categories.csv"))) {
-            String line = reader.readLine(); // Ignorer l'en-tête
+            String line = reader.readLine(); // Lire l'en-tête
             while ((line = reader.readLine()) != null) {
-                String[] fields = line.split(",");
-                
-                String name = fields[0];
-                String description = fields[1];
-                
-                Category category = new Category(name, description);
-                categories.add(category);
+                String[] parts = line.split(",", -1); // -1 pour inclure les champs vides
+                String name = parts[0];
+                String description = parts[1];
+                String[] imageNames = parts.length > 2 ? parts[2].split(";") : new String[0];
+
+                // Vérifier si la catégorie existe déjà dans la liste
+                boolean categoryExists = false;
+                for (Category category : categories) {
+                    if (category.getName().equals(name)) {
+                        categoryExists = true;
+                        break;
+                    }
+                }
+
+                // Si la catégorie n'existe pas, on l'ajoute
+                Category category;
+                if (!categoryExists) {
+                    category = new Category(name, description);
+                    categories.add(category);
+                } else {
+                    // Si la catégorie existe déjà, on récupère l'instance existante
+                    category = findCategoryByName(name);
+                }
+
+                // Ajouter les images associées à la catégorie
+                for (String imageName : imageNames) {
+                    Images image = findImageByName(imageName);
+                    if (image != null && !category.getImages().contains(image)) {
+                        category.addImage(image);
+                    }
+                }
             }
-            //System.out.println("Les catégories ont été chargées depuis categories.csv.");
+
+            System.out.println("Les catégories et les images ont été chargées depuis categories.csv.");
         } catch (IOException e) {
             System.out.println("Erreur lors du chargement des catégories : " + e.getMessage());
         }
     }
-    
+
+
     
     public void loadImagesFromCSV() {
     	images.clear();
