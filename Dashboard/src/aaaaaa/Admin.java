@@ -224,6 +224,33 @@ public class Admin extends User {
             System.out.println("Cet utilisateur n'existe pas");
         }
     }
+    
+    public void removeSuspension(Scanner scanner) {
+    	System.out.println("Liste des utilisateurs disponibles :");
+        for (User user : users) {
+            System.out.println("- " + user.getUsername() + " - " + user.getEmail());
+        }
+
+        System.out.print("Entrez l'email de l'utilisateur à desuspendre : ");
+        String desuspEmail = scanner.nextLine();
+
+        User userTodesuspend = findUserByEmail(desuspEmail);
+        if (userTodesuspend == null) {
+            System.out.println("Utilisateur introuvable.");
+            return;
+        }
+        
+        if (!userTodesuspend.isRestricted()) {
+            System.out.println("Cet utilisateur n'est pas suspendu.");
+            return;
+        }
+        
+        userTodesuspend.setRestricted(false); // Lever la suspension
+        System.out.println("La suspension de l'utilisateur " + desuspEmail + " a été levée.");
+        
+        saveUsersToCSV(); // Sauvegarder les modifications dans le fichier CSV
+    }
+
 
     // Create Image
     public void CreateImage(Scanner scanner) {
@@ -485,7 +512,8 @@ public class Admin extends User {
         try (PrintWriter writer = new PrintWriter(new FileWriter("users.csv"))) {
             writer.println("ID,Username,Email,Restricted"); // En-tête du fichier CSV
             for (User user : users) {
-                writer.printf("%d,%s,%s,%b%n", user.getIdUser(), user.getUsername(), user.getEmail(), user.isRestricted());
+                writer.write(user.getIdUser() + "," + user.getUsername() + "," +
+                             user.getEmail() + "," + user.isRestricted() + "\n");
             }
             System.out.println("Les utilisateurs ont été sauvegardés dans users.csv.");
         } catch (IOException e) {
@@ -607,6 +635,8 @@ public class Admin extends User {
         connected = false;
         System.out.println("Déconnecté avec succès.");
     }
+    
+   
 
 }
 

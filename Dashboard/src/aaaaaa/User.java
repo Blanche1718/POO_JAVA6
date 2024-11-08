@@ -60,8 +60,8 @@ public class User {
     }
 
     public void setRestricted(boolean restricted) {
-        this.restricted = true;
-        System.out.println("L'utilisateur a été suspendu");
+        this.restricted = restricted;
+        //System.out.println("L'utilisateur a été suspendu");
     }
 
     // Methods

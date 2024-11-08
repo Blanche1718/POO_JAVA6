@@ -75,19 +75,21 @@ public class Dashboard {
         System.out.println("2. Editer un utilisateur");
         System.out.println("3. Supprimer un utilisateur");
         System.out.println("4. Suspendre un utilisateur");
-        System.out.println("5. Consulter la liste des utilisateurs");
-        System.out.println("6. Connecter un utilisateur");
+        System.out.println("5. DeSuspendre un utilisateur");
+        System.out.println("6. Consulter la liste des utilisateurs");
+        System.out.println("7. Connecter un utilisateur");
         System.out.println("0. Quitter");
 
-        int option2 = getValidChoice(scanner, 0, 6);
+        int option2 = getValidChoice(scanner, 0, 7);
 
         switch (option2) {
             case 1: admin.CreateUser(scanner); break;
             case 2: admin.EditUser(scanner); break;
             case 3: admin.DeleteUser(scanner); break;
             case 4: admin.Suspend(scanner); break;
-            case 5: admin.UserList(); break;
-            case 6: admin.Connect(scanner); break;
+            case 5: admin.removeSuspension(scanner); break;
+            case 6: admin.UserList(); break;
+            case 7: admin.Connect(scanner); break;
             case 0: break;
         }
     }
