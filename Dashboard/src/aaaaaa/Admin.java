@@ -24,6 +24,7 @@ public class Admin extends User {
         users = new ArrayList<>();
         images = new ArrayList<>();
         connected = false;
+        initializeFiles();
         initData();
     }
     public void initData() {
@@ -50,6 +51,7 @@ public class Admin extends User {
         if (!categories.contains(newCategory)) {
             categories.add(newCategory);
             System.out.println("Catégorie créée : " + newCategory.getName());
+            saveAllData();
         } else {
             System.out.println("La catégorie existe déjà.");
         }
@@ -84,6 +86,7 @@ public class Admin extends User {
         }
 
         System.out.println("Les modifications ont été enregistrées pour la catégorie : " + categoryToEdit.getName());
+        saveAllData();
     }
 
     // Delete Category
@@ -95,6 +98,7 @@ public class Admin extends User {
         if (categoryToDelete != null) {
             categories.remove(categoryToDelete);
             System.out.println("Catégorie supprimée : " + deletedCategoryName);
+            saveAllData();
         } else {
             System.out.println("La catégorie '" + deletedCategoryName + "' n'existe pas.");
         }
@@ -124,10 +128,12 @@ public class Admin extends User {
         System.out.println("Entrez l'email : ");
         String email = scanner.nextLine();
 
-        if (findUserByEmail(email) == null) { 
+        if (findUserByEmail(email) == null && findUserByUsername(newUsername) == null)  { 
             User newUser = new User(newUsername, email);
             users.add(newUser);
+            
             System.out.println("Utilisateur créé : " + newUser.getUsername());
+            saveAllData();
         } else {
             System.out.println("L'utilisateur existe déjà.");
         }
@@ -162,6 +168,7 @@ public class Admin extends User {
         }
 
         System.out.println("Les modifications ont été enregistrées pour l'utilisateur : " + userToEdit.getUsername());
+        saveAllData();
     }
 
     // Delete User
@@ -173,6 +180,7 @@ public class Admin extends User {
         if (userToDelete != null) {
             users.remove(userToDelete);
             System.out.println("Utilisateur supprimé : " + deletedUserName);
+            saveAllData();
         } else {
             System.out.println("L'utilisateur '" + deletedUserName + "' n'existe pas.");
         }
@@ -220,6 +228,7 @@ public class Admin extends User {
         if (!images.contains(newImage)) {
             images.add(newImage);
             System.out.println("Image créée : " + newImage.getName());
+            saveAllData();
         } else {
             System.out.println("L'image existe déjà.");
         }
@@ -234,7 +243,7 @@ public class Admin extends User {
         if (connectedUser == null) {
             System.out.println("Cet utilisateur n'existe pas");
             return;
-        } else if (connectedUser.isRestricted()) {
+        } else if (connectedUser.isRestricted()==true) {
             System.out.println("L'utilisateur est suspendu");
             return;
         }
@@ -404,7 +413,7 @@ public class Admin extends User {
     
     
     public void loadUsersFromCSV() {
-    
+    	users.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader("users.csv"))) {
             String line = reader.readLine(); // Ignorer l'en-tête
             while ((line = reader.readLine()) != null) {
@@ -418,25 +427,26 @@ public class Admin extends User {
                 //user.setRestricted(restricted); // Ajuster en fonction de ta classe
                 users.add(user);
             }
-            System.out.println("Les utilisateurs ont été chargés depuis users.csv.");
+            //System.out.println("Les utilisateurs ont été chargés depuis users.csv.");
         } catch (IOException e) {
             System.out.println("Erreur lors du chargement des utilisateurs : " + e.getMessage());
         }
     }
     
     public void loadCategoriesFromCSV() {
-    
+    	categories.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader("categories.csv"))) {
             String line = reader.readLine(); // Ignorer l'en-tête
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
+                
                 String name = fields[0];
                 String description = fields[1];
                 
                 Category category = new Category(name, description);
                 categories.add(category);
             }
-            System.out.println("Les catégories ont été chargées depuis categories.csv.");
+            //System.out.println("Les catégories ont été chargées depuis categories.csv.");
         } catch (IOException e) {
             System.out.println("Erreur lors du chargement des catégories : " + e.getMessage());
         }
@@ -444,7 +454,7 @@ public class Admin extends User {
     
     
     public void loadImagesFromCSV() {
-    	
+    	images.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader("images.csv"))) {
             String line = reader.readLine(); // Ignorer l'en-tête
             while ((line = reader.readLine()) != null) {
@@ -456,7 +466,7 @@ public class Admin extends User {
                 Images image = new Images(name, title, description, true); // Ajuster selon ton constructeur
                 images.add(image);
             }
-            System.out.println("Les images ont été chargées depuis images.csv.");
+           // System.out.println("Les images ont été chargées depuis images.csv.");
         } catch (IOException e) {
             System.out.println("Erreur lors du chargement des images : " + e.getMessage());
         }
@@ -475,14 +485,21 @@ public class Admin extends User {
             File file = new File(filePath);
             if (!file.exists()) {
                 file.createNewFile(); // Crée le fichier s'il n'existe pas
-                System.out.println("Fichier créé : " + filePath);
+                //System.out.println("Fichier créé : " + filePath);
             } else {
-                System.out.println("Fichier déjà existant : " + filePath);
+                //System.out.println("Fichier déjà existant : " + filePath);
             }
         } catch (IOException e) {
             System.err.println("Erreur lors de la création du fichier : " + filePath);
             e.printStackTrace();
         }
+    }
+    
+    
+    public void disconnect() {
+        saveAllData(); // Sauvegarde toutes les données avant de se déconnecter
+        connected = false;
+        System.out.println("Déconnecté avec succès.");
     }
 
 }

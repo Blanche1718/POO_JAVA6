@@ -35,6 +35,7 @@ public class Dashboard {
                     admin.CreateImage(scanner);
                     break;
                 case 0:
+                	admin.disconnect();
                     System.out.println("Au revoir !");
                     exit = true;
                     break;

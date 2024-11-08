@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class User {
-    private static int next_idUser = 1;
+    private static int next_idUser = 0;
     
     private int idUser;
     private String email;
@@ -136,4 +136,9 @@ public class User {
     public int hashCode() {
         return email.toLowerCase().hashCode();
     }
+
+	public void setIdUser(int id) {
+		// TODO Auto-generated method stub
+		
+	}
 }
