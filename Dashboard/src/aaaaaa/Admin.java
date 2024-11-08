@@ -219,6 +219,7 @@ public class Admin extends User {
         if (userToSuspend != null) {
             userToSuspend.setRestricted(true);
             System.out.println("L'utilisateur " + userToSuspend.getUsername() + " est suspendu.");
+            saveAllData();
         } else {
             System.out.println("Cet utilisateur n'existe pas");
         }
