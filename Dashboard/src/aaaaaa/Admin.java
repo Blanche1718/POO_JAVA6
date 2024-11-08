@@ -258,15 +258,15 @@ public class Admin extends User {
             switch (choix) {
                 case 1:
                     downloadImage(scanner, connectedUser);
-                    saveAllData();
+                    
                     break;
                 case 2:
                     addImageToFavorites(scanner, connectedUser);
-                    saveAllData();
+                    
                     break;
                 case 3:
                     likeImage(scanner, connectedUser);
-                    saveAllData();
+                   
                     break;
                 case 4:
                     connectedUser.showGalerie();
