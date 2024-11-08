@@ -57,7 +57,7 @@ public class User {
         }
     }
 
-    public void setRestricted() {
+    public void setRestricted(boolean restricted) {
         this.restricted = true;
         System.out.println("L'utilisateur a été suspendu");
     }
