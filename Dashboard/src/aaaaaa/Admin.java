@@ -208,6 +208,7 @@ public class Admin extends User {
         if (userToSuspend != null) {
             userToSuspend.setRestricted(true);
             System.out.println("L'utilisateur " + userToSuspend.getUsername() + " est suspendu.");
+            saveAllData();
         } else {
             System.out.println("Cet utilisateur n'existe pas");
         }
@@ -424,7 +425,7 @@ public class Admin extends User {
                 boolean restricted = Boolean.parseBoolean(fields[3]);
                 
                 User user = new User(username, email);
-                //user.setRestricted(restricted); // Ajuster en fonction de ta classe
+                user.setRestricted(restricted); // Ajuster en fonction de ta classe
                 users.add(user);
             }
             //System.out.println("Les utilisateurs ont été chargés depuis users.csv.");
