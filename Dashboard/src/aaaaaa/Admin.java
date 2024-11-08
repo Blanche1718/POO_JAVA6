@@ -13,6 +13,7 @@ public class Admin extends User {
     private static List<Category> categories;
     private static List<User> users;
     private static List<Images> images;
+    private static List<Images> images_soumises;
     private boolean connected;
     private final String userFilePath = "users.csv";
     private final String categoryFilePath = "categories.csv";
@@ -23,6 +24,7 @@ public class Admin extends User {
         categories = new ArrayList<>();
         users = new ArrayList<>();
         images = new ArrayList<>();
+        images_soumises = new ArrayList<>();
         connected = false;
         initializeFiles();
         initData();
@@ -193,6 +195,15 @@ public class Admin extends User {
             System.out.println("- " + user.getUsername());
         }
     }
+    
+ // List Images soumises
+    public void ImagessoumisesList() {
+    	System.out.println("Liste des Images soumises :");
+        for (Images image : images_soumises) {
+            System.out.println("- " + image.getName());
+        }
+    }
+
 
     // Suspend User
     public void Suspend(Scanner scanner) {
@@ -235,6 +246,85 @@ public class Admin extends User {
         }
     }
 
+    //Submit Image User
+    public void SubmitImage(Scanner scanner,User connectuser) {
+    	System.out.println("Entrez le nom de la nouvelle image : ");
+        String name = scanner.nextLine();
+
+        System.out.print("Entrez le titre de l'image : ");
+        String title = scanner.nextLine();
+
+        System.out.println("Entrez la description de l'image : ");
+        String description = scanner.nextLine();
+
+        Images newImage = new Images(name, title, description, false);
+        
+        if (!images_soumises.contains(newImage)) {
+        	connectuser.subImages(newImage);
+        	images_soumises.add(newImage);
+        } else {
+            System.out.println("Cette image a déjà été soumise.");
+        }
+    	
+    }
+    
+    //Approuver image 
+    void Approve_image(Scanner scanner) {
+    	boolean exit = false;
+        while (!exit) {
+            System.out.println("\n--- Images soumises ---");
+            System.out.println("1. Approuver une image");
+            System.out.println("2. Desapprouver une image");
+            System.out.println("0. Quitter");
+
+            System.out.print("Sélectionnez une option : ");
+            int choix = scanner.nextInt();
+            scanner.nextLine();
+            
+            switch (choix) {
+            case 1:
+            	ImagessoumisesList();
+            	System.out.print("Entrez le nom de l'image a approuver : ");
+            	String aproImage = scanner.nextLine();
+            	Images imagetoEdit = findImageSoumiseByName(aproImage); 
+            	
+            	if ( imagetoEdit == null) {
+                    System.out.println("L'image '" + aproImage + "' n'existe pas.");
+                    return;
+                }
+            	
+            	images.add(imagetoEdit);
+            	images_soumises.remove(imagetoEdit);
+            	System.out.println("L'image " + imagetoEdit.getName() + " a été bien approuvée");
+            	break;
+            case 2:
+            	ImagessoumisesList();
+            	System.out.print("Entrez le nom de l\'image a rejeter : ");
+            	String aprovImage = scanner.nextLine();
+            	Images imgtoEdit = findImageSoumiseByName(aprovImage); 
+            	
+            	if ( imgtoEdit == null) {
+                    System.out.println("L'image '" + aprovImage + "' n'existe pas.");
+                    return;
+                }
+            	
+            	images_soumises.remove(imgtoEdit);
+            	System.out.println("L'image " + imgtoEdit.getName() + " a été bien rejetée");
+            	break;
+        
+            case 0:
+                System.out.println("Au revoir !");
+                connected = false;
+                break;
+                
+            default:
+                System.out.println("Option invalide. Veuillez réessayer.");
+            	  	
+            }
+        }
+    }
+
+    
     // User Login
     public void Connect(Scanner scanner) {
         System.out.println("Entrez votre email");
@@ -259,6 +349,7 @@ public class Admin extends User {
             System.out.println("3. Liker une image");
             System.out.println("4. Afficher la galerie");
             System.out.println("5. Afficher les favoris");
+            System.out.println("6. Soummettre une image");
             System.out.println("0. Quitter");
 
             System.out.print("Sélectionnez une option : ");
@@ -284,6 +375,10 @@ public class Admin extends User {
                 case 5:
                     connectedUser.showFavorites();
                     break;
+                case 6:
+                	SubmitImage(scanner,connectedUser);
+                    break;
+
                 case 0:
                     System.out.println("Au revoir !");
                     connected = false;
@@ -330,6 +425,16 @@ public class Admin extends User {
         }
         return null;
     }
+    
+    private Images findImageSoumiseByName(String name) {
+        for (Images image : images_soumises) {
+            if (image.getName().equalsIgnoreCase(name)) {
+                return image;
+            }
+        }
+        return null;
+    }
+
 
     private void downloadImage(Scanner scanner, User user) {
         System.out.println("Liste des images disponibles :");

@@ -13,6 +13,7 @@ public class User {
     private List<Images> galerie;
     private List<Images> favoris;
     private List<Images> like;
+    private List<Images> soumisesImg;
     private boolean restricted = false;
 
     Scanner scanner = new Scanner(System.in);
@@ -25,6 +26,7 @@ public class User {
         this.galerie = new ArrayList<>();
         this.favoris = new ArrayList<>();
         this.like = new ArrayList<>();
+        this.soumisesImg = new ArrayList<>();
     }
 
     // Getters
@@ -122,6 +124,13 @@ public class User {
             }
         }
     }
+    
+    public void subImages(Images imagesub)
+    {
+    	soumisesImg.add(imagesub);
+    	System.out.println("Image soumise avec succes elle sera ajouter une fois confirmation ");
+    }
+
 
     // Override equals and hashCode for User based on email
     @Override
