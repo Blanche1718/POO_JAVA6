@@ -18,6 +18,7 @@ public class Admin extends User {
     private final String userFilePath = "users.csv";
     private final String categoryFilePath = "categories.csv";
     private final String imageFilePath = "images.csv";
+    private final String imagesoumisesFilePath = "images_soumises.csv";
 
     public Admin(String username, String email) {
         super(username, email);
@@ -33,12 +34,14 @@ public class Admin extends User {
         loadUsersFromCSV();
         loadCategoriesFromCSV();
         loadImagesFromCSV();
+        loadImagesSoumisesFromCSV();
     }
     
     public void saveAllData() {
         saveUsersToCSV();
         saveCategoriesToCSV();
         saveImagesToCSV();
+        saveImagesSoumisesToCSV();
     }
 
     // Create Category
@@ -195,6 +198,12 @@ public class Admin extends User {
             System.out.println("- " + user.getUsername());
         }
     }
+    public void ImagesList() {
+        System.out.println("Liste des images disponibles :");
+        for (Images image : images) {
+            System.out.println("- " + image.getName());
+        }
+    }
     
  // List Images soumises
     public void ImagessoumisesList() {
@@ -289,6 +298,8 @@ public class Admin extends User {
         if (!images_soumises.contains(newImage)) {
         	connectuser.subImages(newImage);
         	images_soumises.add(newImage);
+        	System.out.println("Cette image a été bien soumise.");
+        	saveAllData();
         } else {
             System.out.println("Cette image a déjà été soumise.");
         }
@@ -323,6 +334,7 @@ public class Admin extends User {
             	images.add(imagetoEdit);
             	images_soumises.remove(imagetoEdit);
             	System.out.println("L'image " + imagetoEdit.getName() + " a été bien approuvée");
+            	saveAllData();
             	break;
             case 2:
             	ImagessoumisesList();
@@ -337,6 +349,7 @@ public class Admin extends User {
             	
             	images_soumises.remove(imgtoEdit);
             	System.out.println("L'image " + imgtoEdit.getName() + " a été bien rejetée");
+            	saveAllData();
             	break;
         
             case 0:
@@ -545,6 +558,18 @@ public class Admin extends User {
         }
     }
     
+    public void saveImagesSoumisesToCSV() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("images_soumises.csv"))) {
+            writer.println("Name,Title,Description"); // En-tête
+            for (Images image : images_soumises) {
+                writer.printf("%s,%s,%s%n", image.getName(), image.getTitle(), image.getDescription());
+            }
+            System.out.println("Les images ont été sauvegardées dans images_soumises.csv.");
+        } catch (IOException e) {
+            System.out.println("Erreur lors de la sauvegarde des images : " + e.getMessage());
+        }
+    }
+    
     
     public void loadUsersFromCSV() {
     	users.clear();
@@ -605,6 +630,26 @@ public class Admin extends User {
             System.out.println("Erreur lors du chargement des images : " + e.getMessage());
         }
     }
+    
+    
+    public void loadImagesSoumisesFromCSV() {
+    	images_soumises.clear();
+        try (BufferedReader reader = new BufferedReader(new FileReader("images_soumises.csv"))) {
+            String line = reader.readLine(); // Ignorer l'en-tête
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split(",");
+                String name = fields[0];
+                String title = fields[1];
+                String description = fields[2];
+                
+                Images image = new Images(name, title, description, true); // Ajuster selon ton constructeur
+                images_soumises.add(image);
+            }
+           // System.out.println("Les images ont été chargées depuis images.csv.");
+        } catch (IOException e) {
+            System.out.println("Erreur lors du chargement des images soumises : " + e.getMessage());
+        }
+    }
 
 
     
@@ -612,6 +657,7 @@ public class Admin extends User {
         createFileIfNotExists(userFilePath);
         createFileIfNotExists(categoryFilePath);
         createFileIfNotExists(imageFilePath);
+        createFileIfNotExists(imagesoumisesFilePath);
     }
 
     private void createFileIfNotExists(String filePath) {
