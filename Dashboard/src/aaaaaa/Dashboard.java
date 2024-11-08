@@ -18,7 +18,8 @@ public class Dashboard {
             System.out.println("1. Gestion de catégories");
             System.out.println("2. Gestion des utilisateurs");
             System.out.println("3. Ajouter une image");
-            System.out.println("4. Afficher les statistiques de la plateforme");
+            System.out.println("4. Gérer les images soumises");
+            System.out.println("5. Afficher les statistiques de la plateforme");
             System.out.println("0. Quitter");
 
             System.out.print("Sélectionnez une option : ");
@@ -33,6 +34,9 @@ public class Dashboard {
                     break;
                 case 3:
                     admin.CreateImage(scanner);
+                    break;
+                case 4:
+                    admin.Approve_image(scanner);
                     break;
                 case 0:
                 	admin.disconnect();
