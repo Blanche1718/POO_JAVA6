@@ -52,7 +52,9 @@ public class Statistics {
     public int getTotalDownload() {
         // Récupérer toutes les images (supposons qu'il existe une méthode getAllImages())
         List<Images> images_téléchargées = admin.getTotalDownload(); 
-        totalDownloads = images_téléchargées.size(); // Ajouter les téléchargements de chaque image
+        int totalDownloads = images_téléchargées.stream()
+                .mapToInt(Images::getDownload)
+                .sum(); // Ajouter les téléchargements de chaque image
     
         return totalDownloads; // Retourner le total des téléchargements
     }
