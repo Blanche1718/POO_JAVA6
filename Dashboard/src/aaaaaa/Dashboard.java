@@ -123,14 +123,10 @@ public class Dashboard {
                 case 2:
                     System.out.println("Nombre total d'utilisateurs : " + stats.getTotalUsers());
                     break;
-                /*case 3:
-                    System.out.println("Images les plus téléchargées :");
-                    stats.updateMostDownloadedImages();
-                    for (Images image : stats.getMostDownloadedImages()) {
-                        System.out.println(" - " + image.getName() + " : " + image.getDownloads() + " téléchargements");
-                    }
+                case 3:
+                    stats.showTop5Images();
                     break;
-                case 4:
+                /*case 4:
                     System.out.println("Téléchargements par catégorie :");
                     stats.getDownloadsByCategory();
                     stats.getDownloadsByCategory().forEach((category, count) ->

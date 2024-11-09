@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Admin extends User {
     private static List<Category> categories;
@@ -297,7 +299,6 @@ public class Admin extends User {
         }
     }
     
-<<<<<<< HEAD
     public void ImagestéléchargéesList() {
     	System.out.println("Liste des Images téléchargées:");
         for (Images image : images_téléchargées) {
@@ -313,8 +314,6 @@ public class Admin extends User {
         }
     }*/
 
-=======
->>>>>>> 916017b6c50c3556f7bdfdf46b39224b9f8d7641
 
     // Suspend User
     public void Suspend(Scanner scanner) {
@@ -374,7 +373,7 @@ public class Admin extends User {
         System.out.println("Entrez la description de l'image : ");
         String description = scanner.nextLine();
 
-        Images newImage = new Images(name, title, description, true);
+        Images newImage = new Images(name, title, description, true,0);
         if (!images.contains(newImage)) {
             images.add(newImage);
             System.out.println("Image créée : " + newImage.getName());
@@ -395,7 +394,7 @@ public class Admin extends User {
         System.out.println("Entrez la description de l'image : ");
         String description = scanner.nextLine();
 
-        Images newImage = new Images(name, title, description, false);
+        Images newImage = new Images(name, title, description, false,0);
         
         if (!images_soumises.contains(newImage)) {
         	connectuser.subImages(newImage);
@@ -421,6 +420,7 @@ public class Admin extends User {
         if (imageToDownload != null) {
             user.addImage(imageToDownload);
             images_téléchargées.add(imageToDownload);
+            imageToDownload.set_download();
             System.out.println("L'image a été bien télécharger");
             saveAllData();
         } else {
@@ -650,7 +650,7 @@ public class Admin extends User {
                 writer.write(user.getIdUser() + "," + user.getUsername() + "," +
                              user.getEmail() + "," + user.isRestricted() + "\n");
             }
-            System.out.println("Les utilisateurs ont été sauvegardés dans users.csv.");
+            //System.out.println("Les utilisateurs ont été sauvegardés dans users.csv.");
         } catch (IOException e) {
             System.out.println("Erreur lors de la sauvegarde des utilisateurs : " + e.getMessage());
         }
@@ -671,7 +671,7 @@ public class Admin extends User {
 
                 writer.printf("%s,%s,%s%n", category.getName(), category.getDescription(), imageNames.toString());
             }
-            System.out.println("Les catégories et les images ont été sauvegardées dans categories.csv.");
+            //System.out.println("Les catégories ont été sauvegardées dans categories.csv.");
         } catch (IOException e) {
             System.out.println("Erreur lors de la sauvegarde des catégories : " + e.getMessage());
         }
@@ -697,7 +697,7 @@ public class Admin extends User {
             for (Images image : images_soumises) {
                 writer.printf("%s,%s,%s%n", image.getName(), image.getTitle(), image.getDescription());
             }
-            System.out.println("Les images ont été sauvegardées dans images_soumises.csv.");
+           // System.out.println("Les images ont été sauvegardées dans images_soumises.csv.");
         } catch (IOException e) {
             System.out.println("Erreur lors de la sauvegarde des images : " + e.getMessage());
         }
@@ -705,11 +705,11 @@ public class Admin extends User {
     
     public void saveImagesTéléchargéesToCSV() {
         try (PrintWriter writer = new PrintWriter(new FileWriter("images_téléchargées.csv"))) {
-            writer.println("Name,Title,Description"); // En-tête
+            writer.println("Name,Title,Description,Nb_downloads"); // En-tête
             for (Images image : images_téléchargées) {
-                writer.printf("%s,%s,%s%n", image.getName(), image.getTitle(), image.getDescription());
+                writer.printf("%s,%s,%s,%d%n", image.getName(), image.getTitle(), image.getDescription(), image.getDownload());
             }
-            System.out.println("Les images ont été sauvegardées dans images_téléchargées.csv.");
+            //System.out.println("Les images ont été sauvegardées dans images_téléchargées.csv.");
         } catch (IOException e) {
             System.out.println("Erreur lors de la sauvegarde des images : " + e.getMessage());
         }
@@ -792,7 +792,7 @@ public class Admin extends User {
                 String title = fields[1];
                 String description = fields[2];
                 
-                Images image = new Images(name, title, description, true); // Ajuster selon ton constructeur
+                Images image = new Images(name, title, description, true,0); // Ajuster selon ton constructeur
                 images.add(image);
             }
            // System.out.println("Les images ont été chargées depuis images.csv.");
@@ -812,7 +812,7 @@ public class Admin extends User {
                 String title = fields[1];
                 String description = fields[2];
                 
-                Images image = new Images(name, title, description, false); // Ajuster selon ton constructeur
+                Images image = new Images(name, title, description, false,0); // Ajuster selon ton constructeur
                 images_soumises.add(image);
             }
            // System.out.println("Les images ont été chargées depuis images.csv.");
@@ -830,8 +830,9 @@ public class Admin extends User {
                 String name = fields[0];
                 String title = fields[1];
                 String description = fields[2];
+                int downloads = Integer.parseInt(fields[3]);
                 
-                Images image = new Images(name, title, description, true); // Ajuster selon ton constructeur
+                Images image = new Images(name, title, description, true,downloads); // Ajuster selon ton constructeur
                 images_téléchargées.add(image);
             }
            // System.out.println("Les images ont été chargées depuis images.csv.");
@@ -872,7 +873,16 @@ public class Admin extends User {
         System.out.println("Déconnecté avec succès.");
     }
     
-   
+    public List<Images> getTop5Images() {
+        // Trier les images par nombre de téléchargements (ordre décroissant)
+        return images_téléchargées.stream()
+        		.sorted(Comparator.comparingInt(Images::getDownload).reversed())
+                .limit(5) // Limiter à 5 images
+                .collect(Collectors.toList());
+    }
+
+    // Méthode pour afficher les 5 images les plus téléchargées
+    
 
 }
 

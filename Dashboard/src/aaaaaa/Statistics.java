@@ -1,4 +1,5 @@
 package aaaaaa;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -10,9 +11,9 @@ public class Statistics {
 	private Admin admin; 
     private int totalDownloads; // Nombre total de téléchargements
     private int totalUsers; // Nombre total d'utilisateurs
-   /* private List <Images> mostDownloadedImages =  new ArrayList<>();
-    private Map<String, Integer> downloadsByCategory;     // Map qui stocke le nombre de téléchargements par catégorie
-    private Map<Images, Integer> likePerImage;
+    private List <Images> mostDownloadedImages =  new ArrayList<>();
+   // private Map<String, Integer> downloadsByCategory;     // Map qui stocke le nombre de téléchargements par catégorie
+    //private Map<Images, Integer> likePerImage;
      // Attribut static pour stocker l'instance unique de la classe
     /* L'attribut "instance" est un attribut static qui contient l'instance unique de la classe Statistics.
      *  Il est déclaré private pour empêcher l'accès direct en dehors de la classe.
@@ -26,8 +27,8 @@ public class Statistics {
     	this.admin = admin;
     	this.totalDownloads = 0;
         this.totalUsers = 0;
-        /*this.mostDownloadedImages = new ArrayList<>();
-        this.downloadsByCategory = new HashMap<>(); 
+        this.mostDownloadedImages = new ArrayList<>();
+        /*this.downloadsByCategory = new HashMap<>(); 
         this.likePerImage = 0.0;*/
     }
    
@@ -57,20 +58,22 @@ public class Statistics {
     }
     
     
-    
-    
-    
-    
-    
-    
-   /* public List<Images> getMostDownloadedImages() {  // Accéder à la liste des 5 images les plus téléchargées
-        return mostDownloadedImages;
+    public List<Images> getTop5Images() {
+        return admin.getTop5Images();  // Appeler la méthode de Admin
     }
+     
+     public void showTop5Images() {
+         List<Images> top5Images = getTop5Images();
+         System.out.println("Top 5 des images les plus téléchargées : ");
+         for (Images image : top5Images) {
+             System.out.println(image);
+         }
+     }
     
     
    
     
-    public Map<String, Integer> getDownloadsByCategory() {
+    /*public Map<String, Integer> getDownloadsByCategory() {
         return new HashMap<>(downloadsByCategory);
     }
     

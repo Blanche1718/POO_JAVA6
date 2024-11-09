@@ -8,20 +8,21 @@ public class Images {
 		private String description;
 		//private int likes;
 		private boolean approuved; 
-		//private int nb_downloads=0;
+		private int nb_downloads=0;
 		private static int next_id=1;//
 
 
 		
 		
 		//Constructor
-		public Images (String name,String title,String description,boolean approuved) {
+		public Images (String name,String title,String description,boolean approuved,int nb_downloads) {
 		
 			this.id = next_id++;
 			this.name = name;//on affecte la valeur du paramètre name à l'attribut name
 			this.title = title;
 			this.description = description;
 			this.approuved=approuved;
+			this.nb_downloads = nb_downloads; 
 		}
 
 
@@ -101,18 +102,19 @@ public class Images {
 		}
 
 
-		public String getDownloads() {
-			// TODO Auto-generated method stub
-			return null;
-		}
 		
-		/*public void set_download(){
-			nb_downloads++;
+		
+		public void set_download(){
+			this.nb_downloads++;
 		}
 		public int getDownload(){
 			return nb_downloads;
-		}*/
+		}
 				
-		
+		@Override
+		public String toString() {
+		    return "ID: " + id + ", Nom: " + name + ", Titre: " + title + ", Téléchargements: " + nb_downloads;
+		}
+
 		
 }
