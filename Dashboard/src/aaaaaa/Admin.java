@@ -14,11 +14,13 @@ public class Admin extends User {
     private static List<User> users;
     private static List<Images> images;
     private static List<Images> images_soumises;
+    private static List<Images> images_téléchargées;
     private boolean connected;
     private final String userFilePath = "users.csv";
     private final String categoryFilePath = "categories.csv";
     private final String imageFilePath = "images.csv";
     private final String imagesoumisesFilePath = "images_soumises.csv";
+    private final String imagetéléchargéesFilePath = "images_téléchargées.csv";
 
     public Admin(String username, String email) {
         super(username, email);
@@ -26,6 +28,7 @@ public class Admin extends User {
         users = new ArrayList<>();
         images = new ArrayList<>();
         images_soumises = new ArrayList<>();
+        images_téléchargées = new ArrayList<>();
         connected = false;
         initializeFiles();
         initData();
@@ -35,6 +38,7 @@ public class Admin extends User {
         loadCategoriesFromCSV();
         loadImagesFromCSV();
         loadImagesSoumisesFromCSV();
+        loadImagesTéléchargéesFromCSV();
     }
     
     public void saveAllData() {
@@ -42,8 +46,15 @@ public class Admin extends User {
         saveCategoriesToCSV();
         saveImagesToCSV();
         saveImagesSoumisesToCSV();
+        saveImagesTéléchargéesToCSV();
     }
 
+    public List<User> getTotalUsers() {
+        return users;
+    }
+    public List<Images> getTotalDownload() {
+        return images_téléchargées;
+    }
     // Create Category
     public void CreateCategory(Scanner scanner) {
         System.out.println("Entrez le nom de la nouvelle catégorie : ");
@@ -277,13 +288,20 @@ public class Admin extends User {
         }
     }
     
+    public void ImagestéléchargéesList() {
+    	System.out.println("Liste des Images téléchargées:");
+        for (Images image : images_téléchargées) {
+            System.out.println("- " + image.getName());
+        }
+    }
+    
  // List Images soumises
-    public void ImagesList() {
+   /* public void ImagesSoumisesList() {
     	System.out.println("Liste des Images soumises :");
         for (Images image : images) {
             System.out.println("- " + image.getName());
         }
-    }
+    }*/
 
 
     // Suspend User
@@ -373,11 +391,30 @@ public class Admin extends User {
         	System.out.println("Cette image a été bien soumise.");
         	saveAllData();
         } else {
-            System.out.println("Cette image a déjà été soumise.");
+            System.out.println("Cette image avait déjà été soumise.");
         }
     	
     }
     
+    
+    private void downloadImage(Scanner scanner, User user) {
+        System.out.println("Liste des images disponibles :");
+        for (Images image : images) {
+            System.out.println("- " + image.getName());
+        }
+        System.out.print("Entrez le nom de l'image à télécharger : ");
+        String downloadImageName = scanner.nextLine();
+
+        Images imageToDownload = findImageByName(downloadImageName);
+        if (imageToDownload != null) {
+            user.addImage(imageToDownload);
+            images_téléchargées.add(imageToDownload);
+            System.out.println("L'image a été bien télécharger");
+            saveAllData();
+        } else {
+            System.out.println("Cette image n'existe pas");
+        }
+    }
     //Approuver image 
     void Approve_image(Scanner scanner) {
     	boolean exit = false;
@@ -546,24 +583,17 @@ public class Admin extends User {
         }
         return null;
     }
-
-
-    private void downloadImage(Scanner scanner, User user) {
-        System.out.println("Liste des images disponibles :");
-        for (Images image : images) {
-            System.out.println("- " + image.getName());
+    private Images findImageTéléchargéeByName(String name) {
+        for (Images image : images_soumises) {
+            if (image.getName().equalsIgnoreCase(name)) {
+                return image;
+            }
         }
-        System.out.print("Entrez le nom de l'image à télécharger : ");
-        String downloadImageName = scanner.nextLine();
-
-        Images imageToDownload = findImageByName(downloadImageName);
-        if (imageToDownload != null) {
-            user.addImage(imageToDownload);
-            System.out.println("L'image a été bien télécharger");
-        } else {
-            System.out.println("Cette image n'existe pas");
-        }
+        return null;
     }
+
+
+   
 
     private void addImageToFavorites(Scanner scanner, User user) {
         System.out.print("Entrez le nom de l'image à ajouter aux favoris : ");
@@ -653,6 +683,18 @@ public class Admin extends User {
         }
     }
     
+    public void saveImagesTéléchargéesToCSV() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("images_téléchargées.csv"))) {
+            writer.println("Name,Title,Description"); // En-tête
+            for (Images image : images_téléchargées) {
+                writer.printf("%s,%s,%s%n", image.getName(), image.getTitle(), image.getDescription());
+            }
+            System.out.println("Les images ont été sauvegardées dans images_téléchargées.csv.");
+        } catch (IOException e) {
+            System.out.println("Erreur lors de la sauvegarde des images : " + e.getMessage());
+        }
+    }
+    
     
     public void loadUsersFromCSV() {
     	users.clear();
@@ -712,7 +754,7 @@ public class Admin extends User {
                 }
             }
 
-            System.out.println("Les catégories et les images ont été chargées depuis categories.csv.");
+            //System.out.println("Les catégories et les images ont été chargées depuis categories.csv.");
         } catch (IOException e) {
             System.out.println("Erreur lors du chargement des catégories : " + e.getMessage());
         }
@@ -750,8 +792,27 @@ public class Admin extends User {
                 String title = fields[1];
                 String description = fields[2];
                 
-                Images image = new Images(name, title, description, true); // Ajuster selon ton constructeur
+                Images image = new Images(name, title, description, false); // Ajuster selon ton constructeur
                 images_soumises.add(image);
+            }
+           // System.out.println("Les images ont été chargées depuis images.csv.");
+        } catch (IOException e) {
+            System.out.println("Erreur lors du chargement des images soumises : " + e.getMessage());
+        }
+    }
+
+    public void loadImagesTéléchargéesFromCSV() {
+    	images_téléchargées.clear();
+        try (BufferedReader reader = new BufferedReader(new FileReader("images_téléchargées.csv"))) {
+            String line = reader.readLine(); // Ignorer l'en-tête
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split(",");
+                String name = fields[0];
+                String title = fields[1];
+                String description = fields[2];
+                
+                Images image = new Images(name, title, description, true); // Ajuster selon ton constructeur
+                images_téléchargées.add(image);
             }
            // System.out.println("Les images ont été chargées depuis images.csv.");
         } catch (IOException e) {
@@ -766,6 +827,7 @@ public class Admin extends User {
         createFileIfNotExists(categoryFilePath);
         createFileIfNotExists(imageFilePath);
         createFileIfNotExists(imagesoumisesFilePath);
+        createFileIfNotExists(imagetéléchargéesFilePath);
     }
 
     private void createFileIfNotExists(String filePath) {

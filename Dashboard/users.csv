@@ -1,14 +1,4 @@
 ID,Username,Email,Restricted
-<<<<<<< HEAD
-8,Angelina,blanche@gmail.com,false
-9,Angelina,blanche@gmail.com,false
-10,blanche,angel@gmail.com,false
-11,Angelina,blanche@gmail.com,false
-12,Angelina,blanche@gmail.com,false
-13,blanche,angel@gmail.com,false
-14,graham,graham@gmail.com,false
-=======
 4,Angelina,blanche@gmail.com,true
 5,blanche,angeli@gmail.com,false
 6,Hosny,angel@gmail.com,false
->>>>>>> bc13d34799d49521315749a2fb59a97a05fb394e

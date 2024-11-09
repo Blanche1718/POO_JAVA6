@@ -7,6 +7,7 @@ public class Dashboard {
         Scanner scanner = new Scanner(System.in);
         
         Admin admin = new Admin("Admin", "admin@example.com");
+        Statistics stats = new Statistics(admin);
         admin.loadUsersFromCSV();
         admin.loadCategoriesFromCSV();
         admin.loadImagesFromCSV();
@@ -23,7 +24,7 @@ public class Dashboard {
             System.out.println("0. Quitter");
 
             System.out.print("Sélectionnez une option : ");
-            int choix = getValidChoice(scanner, 0, 4);  // Utilisation de la méthode getValidChoice
+            int choix = getValidChoice(scanner, 0, 5);  // Utilisation de la méthode getValidChoice
 
             switch (choix) {
                 case 1:
@@ -38,6 +39,9 @@ public class Dashboard {
                 case 4:
                     admin.Approve_image(scanner);
                     break;
+                case 5:
+                	gestionStatistiques(scanner,stats);
+                	break;
                 case 0:
                 	admin.disconnect();
                     System.out.println("Au revoir !");
@@ -97,6 +101,55 @@ public class Dashboard {
             case 0: break;
         }
     }
+    
+
+
+    private static void gestionStatistiques(Scanner scanner, Statistics stats) {
+       
+
+            System.out.println("1. Afficher le nombre total de téléchargements");
+            System.out.println("2. Afficher le nombre total d'utilisateurs");
+            System.out.println("3. Afficher les images les plus téléchargées");
+            System.out.println("4. Afficher les téléchargements par catégorie");
+            System.out.println("5. Afficher l'activité des utilisateurs");
+            System.out.println("0. Déconnexion");
+
+            int option3=getValidChoice(scanner, 0, 5);
+
+            switch (option3) {
+                case 1:
+                   System.out.println("Total des téléchargements : " + stats.getTotalDownload());
+                    break;
+                case 2:
+                    System.out.println("Nombre total d'utilisateurs : " + stats.getTotalUsers());
+                    break;
+                /*case 3:
+                    System.out.println("Images les plus téléchargées :");
+                    stats.updateMostDownloadedImages();
+                    for (Images image : stats.getMostDownloadedImages()) {
+                        System.out.println(" - " + image.getName() + " : " + image.getDownloads() + " téléchargements");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Téléchargements par catégorie :");
+                    stats.getDownloadsByCategory();
+                    stats.getDownloadsByCategory().forEach((category, count) ->
+                            System.out.println(" - " + category + " : " + count + " téléchargements"));
+                    break;
+                case 5:
+                    System.out.println("Activité des utilisateurs :");
+                    stats.updateUserActivity();
+                    stats.getUserActivity().forEach((user, count) ->
+                            System.out.println(" - " + user.getName() + " : " + count + " téléchargements"));
+                    break;*/
+                case 0:
+                    break;
+                default:
+                    System.out.println("Option invalide. Veuillez réessayer.");
+            }
+        
+    }
+     
     
     private static int getValidChoice(Scanner scanner, int min, int max) {
         int choice = -1;

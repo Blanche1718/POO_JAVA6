@@ -99,6 +99,12 @@ public class Images {
 		public void setApprouved(Boolean approuved) {
 			this.approuved = approuved;
 		}
+
+
+		public String getDownloads() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		
 		/*public void set_download(){
 			nb_downloads++;

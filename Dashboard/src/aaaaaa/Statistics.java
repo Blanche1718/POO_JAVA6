@@ -1,12 +1,5 @@
-package Stats;
-import java.util.PriorityQueue;
-import java.util.stream.Collectors;
-import java.util.HashMap;
-import java.util.Map;
+package aaaaaa;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 
 
@@ -14,75 +7,75 @@ import java.util.Comparator;
 public class Statistics {
    
 	//Attributs
-	
+	private Admin admin; 
     private int totalDownloads; // Nombre total de téléchargements
     private int totalUsers; // Nombre total d'utilisateurs
-
-    private List <Image> mostDownloadedImages =  new ArrayList<>();
+   /* private List <Images> mostDownloadedImages =  new ArrayList<>();
     private Map<String, Integer> downloadsByCategory;     // Map qui stocke le nombre de téléchargements par catégorie
-    private Map<Image, Integer> likePerImage;
-    private static Statistics instance;  // Attribut static pour stocker l'instance unique de la classe
+    private Map<Images, Integer> likePerImage;
+     // Attribut static pour stocker l'instance unique de la classe
     /* L'attribut "instance" est un attribut static qui contient l'instance unique de la classe Statistics.
      *  Il est déclaré private pour empêcher l'accès direct en dehors de la classe.
      */
-    
-    
+ 
     
     
     // Constructeur
     
-    private Statistics() {  // Le constructeur est privé pour empêcher l'instanciation directe en dehors de la classe
-        this.totalDownloads = 0;
+    public Statistics(Admin admin) {  // Le constructeur est privé pour empêcher l'instanciation directe en dehors de la classe
+    	this.admin = admin;
+    	this.totalDownloads = 0;
         this.totalUsers = 0;
-        this.mostDownloadedImages = new ArrayList<>();
+        /*this.mostDownloadedImages = new ArrayList<>();
         this.downloadsByCategory = new HashMap<>(); 
-        this.likesPerImage = 0.0;
+        this.likePerImage = 0.0;*/
     }
-    
    
-    
-    //Getteurs-Acesseurs
-    
    
-    public static Statistics getInstance() { // Méthode pour récupérer l'instance unique de Statistics
+   /* public static Statistics getInstance() { // Méthode pour récupérer l'instance unique de Statistics
         // Si l'instance n'existe pas encore, on la crée
         if (instance == null) {
-            instance = new Statistics();
+            instance = new Statistics(admin);
         }
         // Retourne l'instance unique
         return instance;
+    }*/
+    
+    
+    public int getTotalUsers() {
+        List<User> users = admin.getTotalUsers(); 
+        totalUsers = users.size(); 
+        return totalUsers;
     }
     
-    public List<Image> getMostDownloadedImages() {  // Accéder à la liste des 5 images les plus téléchargées
-        return mostDownloadedImages;
-    }
-    
-    public int getTotalDownloads() {
+    public int getTotalDownload() {
         // Récupérer toutes les images (supposons qu'il existe une méthode getAllImages())
-        List<Image> listImages = Image.getAllImages(); 
-    
-        // Calculer la somme des téléchargements pour toutes les images
-        int totalDownloads = 0;
-        for (Image image : listImages) {
-        totalDownloads += image.getDownloads(); // Ajouter les téléchargements de chaque image
-        }
+        List<Images> images_téléchargées = admin.getTotalDownload(); 
+        totalDownloads = images_téléchargées.size(); // Ajouter les téléchargements de chaque image
     
         return totalDownloads; // Retourner le total des téléchargements
     }
     
-    public int getTotalUsers() {
-        // Récupérer toutes les Users(supposons qu'il existe une méthode getAllUsers())
-        List<User> listUsers = User.getAllUsers(); 
-        totalUsers = listUsers.size();
-
+    
+    
+    
+    
+    
+    
+    
+   /* public List<Images> getMostDownloadedImages() {  // Accéder à la liste des 5 images les plus téléchargées
+        return mostDownloadedImages;
     }
+    
+    
+   
     
     public Map<String, Integer> getDownloadsByCategory() {
         return new HashMap<>(downloadsByCategory);
     }
     
     public double getLikesPerImage() {
-        return likesPerImage;
+        return likePerImage;
     }
     
     
@@ -103,7 +96,14 @@ public class Statistics {
     for (Image image : Image.getAllImages()) {
         System.out.println("Image ID :" +Image.getID() + ", Name :" + Image.getName());
     }
-} 
+}
+
+
+
+public void updateUserActivity() {
+	// TODO Auto-generated method stub
+	
+} */
 
     
     
