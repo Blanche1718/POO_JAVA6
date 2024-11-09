@@ -107,6 +107,12 @@ public class Admin extends User {
 
     // Delete Category
     public void DeleteCategory(Scanner scanner) {
+    	
+    	System.out.println("Liste des catégories disponibles :");
+        for (Category category : categories) {
+            System.out.println("- " + category.getName());
+        }
+        
         System.out.print("Entrez le nom de la catégorie que vous souhaitez supprimer : ");
         String deletedCategoryName = scanner.nextLine();
 
@@ -143,6 +149,7 @@ public class Admin extends User {
     	if(newCategory == null)
     	{
     		System.out.println("Cette categorie n'existe pas");
+    		return;
     	}
     	
     	ImagesList();
@@ -153,6 +160,7 @@ public class Admin extends User {
     	if(newImage == null)
     	{
     		System.out.println("Cette image n'existe pas");
+    		return;
     	}
     	
     	List<Images> liImage = newCategory.getImages(); 
@@ -160,9 +168,10 @@ public class Admin extends User {
     	boolean imageExists = false;
     	for(Images image : liImage)
     	{
-    		if(image.getName().equals(ImgName))
+    		if(image.getName().equals(ImgName)) {
     			imageExists = true;
             	break; 
+            	}
     	}
     		
     	if (imageExists) {
@@ -288,6 +297,7 @@ public class Admin extends User {
         }
     }
     
+<<<<<<< HEAD
     public void ImagestéléchargéesList() {
     	System.out.println("Liste des Images téléchargées:");
         for (Images image : images_téléchargées) {
@@ -303,6 +313,8 @@ public class Admin extends User {
         }
     }*/
 
+=======
+>>>>>>> 916017b6c50c3556f7bdfdf46b39224b9f8d7641
 
     // Suspend User
     public void Suspend(Scanner scanner) {
@@ -596,6 +608,10 @@ public class Admin extends User {
    
 
     private void addImageToFavorites(Scanner scanner, User user) {
+    	 System.out.println("Liste des images disponibles :");
+         for (Images image : images) {
+             System.out.println("- " + image.getName());
+         }
         System.out.print("Entrez le nom de l'image à ajouter aux favoris : ");
         String favoriteImageName = scanner.nextLine();
 
@@ -609,6 +625,10 @@ public class Admin extends User {
     }
 
     private void likeImage(Scanner scanner, User user) {
+    	 System.out.println("Liste des images disponibles :");
+         for (Images image : images) {
+             System.out.println("- " + image.getName());
+         }
         System.out.print("Entrez le nom de l'image à liker : ");
         String likeImageName = scanner.nextLine();
 
