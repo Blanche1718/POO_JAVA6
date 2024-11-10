@@ -6,7 +6,7 @@ public class Dashboard {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         
-        Admin admin = new Admin("Admin", "admin@example.com");
+        Admin admin = new Admin("Admin", "admin@gmail.com");
         Statistics stats = new Statistics(admin);
         admin.loadUsersFromCSV();
         admin.loadCategoriesFromCSV();
@@ -15,15 +15,17 @@ public class Dashboard {
 
         boolean exit = false;
         while (!exit) {
-            System.out.println("\n--- Menu ---");
-            System.out.println("1. Gestion de catégories");
-            System.out.println("2. Gestion des utilisateurs");
-            System.out.println("3. Ajouter une image");
-            System.out.println("4. Gérer les images soumises");
-            System.out.println("5. Afficher les statistiques de la plateforme");
-            System.out.println("0. Quitter");
+        	System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        	System.out.println("\n***********************************Bienvenue sur la plateforme d'administration de notre site de téléchargement d'images. Voici les options qui sont disponibles:****************************************");
+            System.out.println("\n--------------- Menu ----------------");
+            System.out.println("\n1. Gestion de catégories");
+            System.out.println("\n2. Gestion des utilisateurs");
+            System.out.println("\n3. Ajouter une image sur la plateforme");
+            System.out.println("\n4. Gérer les images soumises par les utilisateurs");
+            System.out.println("\n5. Afficher les statistiques de la plateforme");
+            System.out.println("\n0. Quitter");
 
-            System.out.print("Sélectionnez une option : ");
+            System.out.print("\nSélectionnez une option : ");
             int choix = getValidChoice(scanner, 0, 5);  // Utilisation de la méthode getValidChoice
 
             switch (choix) {
@@ -44,11 +46,11 @@ public class Dashboard {
                 	break;
                 case 0:
                 	admin.disconnect();
-                    System.out.println("Au revoir !");
+                    System.out.println("\nAu revoir !");
                     exit = true;
                     break;
                 default:
-                    System.out.println("Option invalide. Veuillez réessayer.");
+                    System.out.println("\nOption invalide. Veuillez réessayer.");
             }
         }
         scanner.close();
@@ -56,13 +58,13 @@ public class Dashboard {
 
     // Méthode pour gérer les catégories
     private static void gestionCategories(Scanner scanner, Admin admin) {
-        System.out.println("1. Ajouter une catégorie");
-        System.out.println("2. Editer une catégorie");
-        System.out.println("3. Supprimer une catégorie");
-        System.out.println("4. Consulter la liste des catégories");
-        System.out.println("5. Ajouter une image a une catégorie");
-        System.out.println("6. Consulter les images dans une catégorie");
-        System.out.println("0. Quitter");
+        System.out.println("\n1. Ajouter une catégorie");
+        System.out.println("\n2. Editer une catégorie");
+        System.out.println("\n3. Supprimer une catégorie");
+        System.out.println("\n4. Consulter la liste des catégories");
+        System.out.println("\n5. Ajouter une image a une catégorie");
+        System.out.println("\n6. Consulter les images dans une catégorie");
+        System.out.println("\n0. Quitter");
 
         int option1 = getValidChoice(scanner, 0, 6);
         
@@ -79,14 +81,14 @@ public class Dashboard {
 
     // Méthode pour gérer les utilisateurs
     private static void gestionUtilisateurs(Scanner scanner, Admin admin) {
-        System.out.println("1. Ajouter un utilisateur");
-        System.out.println("2. Editer un utilisateur");
-        System.out.println("3. Supprimer un utilisateur");
-        System.out.println("4. Suspendre un utilisateur");
-        System.out.println("5. DeSuspendre un utilisateur");
-        System.out.println("6. Consulter la liste des utilisateurs");
-        System.out.println("7. Connecter un utilisateur");
-        System.out.println("0. Quitter");
+        System.out.println("\n1. Ajouter un utilisateur");
+        System.out.println("\n2. Editer un utilisateur");
+        System.out.println("\n3. Supprimer un utilisateur");
+        System.out.println("\n4. Suspendre un utilisateur");
+        System.out.println("\n5. Lever la suspension d'un utilisateur");
+        System.out.println("\n6. Consulter la liste des utilisateurs");
+        System.out.println("\n7. Connecter un utilisateur");
+        System.out.println("\n0. Quitter");
 
         int option2 = getValidChoice(scanner, 0, 7);
 
@@ -107,41 +109,35 @@ public class Dashboard {
     private static void gestionStatistiques(Scanner scanner, Statistics stats) {
        
 
-            System.out.println("1. Afficher le nombre total de téléchargements");
-            System.out.println("2. Afficher le nombre total d'utilisateurs");
-            System.out.println("3. Afficher les images les plus téléchargées");
-            System.out.println("4. Afficher les téléchargements par catégorie");
-            System.out.println("5. Afficher l'activité des utilisateurs");
-            System.out.println("0. Déconnexion");
+            System.out.println("\n1. Afficher le nombre total de téléchargements");
+            System.out.println("\n2. Afficher le nombre total d'utilisateurs");
+            System.out.println("\n3. Afficher les images les plus téléchargées");
+            System.out.println("\n4. Afficher les téléchargements par catégorie");
+            System.out.println("\n5. Afficher l'activité des utilisateurs");
+            System.out.println("\n0. Déconnexion");
 
             int option3=getValidChoice(scanner, 0, 5);
 
             switch (option3) {
                 case 1:
-                   System.out.println("Total des téléchargements : " + stats.getTotalDownload());
+                   System.out.println("\nTotal des téléchargements : " + stats.getTotalDownload());
                     break;
                 case 2:
-                    System.out.println("Nombre total d'utilisateurs : " + stats.getTotalUsers());
+                    System.out.println("\nNombre total d'utilisateurs : " + stats.getTotalUsers());
                     break;
                 case 3:
                     stats.showTop5Images();
                     break;
-                /*case 4:
-                    System.out.println("Téléchargements par catégorie :");
-                    stats.getDownloadsByCategory();
-                    stats.getDownloadsByCategory().forEach((category, count) ->
-                            System.out.println(" - " + category + " : " + count + " téléchargements"));
+                case 4:
+                   stats.afficherImagesTelechargeesParCategorie();
                     break;
                 case 5:
-                    System.out.println("Activité des utilisateurs :");
-                    stats.updateUserActivity();
-                    stats.getUserActivity().forEach((user, count) ->
-                            System.out.println(" - " + user.getName() + " : " + count + " téléchargements"));
-                    break;*/
+                    stats.showUserActivity();
+                    break;
                 case 0:
                     break;
                 default:
-                    System.out.println("Option invalide. Veuillez réessayer.");
+                    System.out.println("\nOption invalide. Veuillez réessayer.");
             }
         
     }
@@ -151,13 +147,13 @@ public class Dashboard {
         int choice = -1;
         while (choice < min || choice > max) {
             try {
-                System.out.print("Entrez un nombre entre " + min + " et " + max + ": ");
+                System.out.print("\nVeuillez bien à entrer un nombre entre " + min + " et " + max + ": ");
                 choice = scanner.nextInt();
                 if (choice < min || choice > max) {
-                    System.out.println("Veuillez entrer un nombre valide.");
+                    System.out.println("\nVeuillez entrer un nombre valide.");
                 }
             } catch (Exception e) {
-                System.out.println("Entrée invalide. Veuillez entrer un nombre.");
+                System.out.println("\nEntrée invalide. Veuillez entrer un nombre.");
                 scanner.nextLine();  // Consomme l'entrée invalide
             }
         }

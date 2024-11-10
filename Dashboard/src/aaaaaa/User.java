@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class User {
-    private static int next_idUser = 0;
+    //private static int next_idUser = 0;
     
-    private int idUser;
+    private int idUser=0;
     private String email;
     private String username;
     private List<Images> galerie;
@@ -15,18 +15,20 @@ public class User {
     private List<Images> like;
     private List<Images> soumisesImg;
     private boolean restricted = false;
+    private List<Images> downloadedImages;
 
     Scanner scanner = new Scanner(System.in);
 
     // Constructor
     public User(String username, String email) {
-        this.idUser = next_idUser++;
+        this.idUser = idUser;
         this.username = username;
         this.email = email;
         this.galerie = new ArrayList<>();
         this.favoris = new ArrayList<>();
         this.like = new ArrayList<>();
         this.soumisesImg = new ArrayList<>();
+        this.downloadedImages = new ArrayList<>();
     }
 
     // Getters
@@ -128,8 +130,17 @@ public class User {
     public void subImages(Images imagesub)
     {
     	soumisesImg.add(imagesub);
-    	System.out.println("Image soumise avec succes elle sera ajouter une fois confirmation ");
+    	System.out.println("Image soumise avec succès :Elle sera ajoutée à la plateforme une fois confirmation de l'administrateur.");
     }
+    
+    public void downloadImage(Images image) {
+        downloadedImages.add(image);
+    }
+
+    public List<Images> getDownloadedImages() {
+        return downloadedImages;
+    }
+
 
 
     // Override equals and hashCode for User based on email

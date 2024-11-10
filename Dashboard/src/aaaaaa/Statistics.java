@@ -1,6 +1,8 @@
 package aaaaaa;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 
@@ -11,7 +13,7 @@ public class Statistics {
 	private Admin admin; 
     private int totalDownloads; // Nombre total de téléchargements
     private int totalUsers; // Nombre total d'utilisateurs
-    private List <Images> mostDownloadedImages =  new ArrayList<>();
+    private List <Images> mostDownloadedImages ;
    // private Map<String, Integer> downloadsByCategory;     // Map qui stocke le nombre de téléchargements par catégorie
     //private Map<Images, Integer> likePerImage;
      // Attribut static pour stocker l'instance unique de la classe
@@ -66,14 +68,50 @@ public class Statistics {
      
      public void showTop5Images() {
          List<Images> top5Images = getTop5Images();
-         System.out.println("Top 5 des images les plus téléchargées : ");
+         System.out.println("/nTop 5 des images les plus téléchargées : ");
          for (Images image : top5Images) {
              System.out.println(image);
          }
      }
     
+     public void showUserActivity() {
+         System.out.println("/nActivité des utilisateurs :");
+
+         Map<String, Integer> userActivity = admin.getUserActivity();
+         
+         for (Map.Entry<String, Integer> entry : userActivity.entrySet()) {
+             String userName = entry.getKey();
+             int downloadCount = entry.getValue();
+
+             System.out.println("/nUtilisateur : " + userName + ", Téléchargements : " + downloadCount);
+         }
+     }
     
-   
+     public void afficherImagesTelechargeesParCategorie() {
+         // Obtenir la liste des catégories et des images téléchargées
+         List<Category> categories = admin.getCategories();
+         List<Images> images_téléchargées = admin. getTotalDownload();
+
+         // Parcourir chaque catégorie pour afficher les images téléchargées
+         for (Category category : categories) {
+             System.out.println("/nCatégorie : " + category.getName());
+
+             // Filtrer les images de cette catégorie qui sont aussi dans la liste des téléchargements
+             List<Images> imagesTelechargeesDansCategorie = category.getImages().stream()
+                 .filter(images_téléchargées::contains)
+                 .collect(Collectors.toList());
+
+             // Affichage des images téléchargées dans cette catégorie
+             if (!imagesTelechargeesDansCategorie.isEmpty()) {
+                 for (Images image : imagesTelechargeesDansCategorie) {
+                     System.out.println("- Nom: " + image.getName() +
+                                        ", Téléchargements: " + image.getDownload());
+                 }
+             } else {
+                 System.out.println("Aucune image téléchargée dans cette catégorie.");
+             }
+         }
+     }
     
     /*public Map<String, Integer> getDownloadsByCategory() {
         return new HashMap<>(downloadsByCategory);
