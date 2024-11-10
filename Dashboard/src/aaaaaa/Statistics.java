@@ -68,14 +68,14 @@ public class Statistics {
      
      public void showTop5Images() {
          List<Images> top5Images = getTop5Images();
-         System.out.println("/nTop 5 des images les plus téléchargées : ");
+         System.out.println("\nTop 5 des images les plus téléchargées : ");
          for (Images image : top5Images) {
              System.out.println(image);
          }
      }
     
      public void showUserActivity() {
-         System.out.println("/nActivité des utilisateurs :");
+         System.out.println("\nActivité des utilisateurs :");
 
          Map<String, Integer> userActivity = admin.getUserActivity();
          
@@ -83,7 +83,7 @@ public class Statistics {
              String userName = entry.getKey();
              int downloadCount = entry.getValue();
 
-             System.out.println("/nUtilisateur : " + userName + ", Téléchargements : " + downloadCount);
+             System.out.println("\nUtilisateur : " + userName + ", Téléchargements : " + downloadCount);
          }
      }
     
@@ -94,7 +94,7 @@ public class Statistics {
 
          // Parcourir chaque catégorie pour afficher les images téléchargées
          for (Category category : categories) {
-             System.out.println("/nCatégorie : " + category.getName());
+             System.out.println("\nCatégorie : " + category.getName());
 
              // Filtrer les images de cette catégorie qui sont aussi dans la liste des téléchargements
              List<Images> imagesTelechargeesDansCategorie = category.getImages().stream()
@@ -104,7 +104,7 @@ public class Statistics {
              // Affichage des images téléchargées dans cette catégorie
              if (!imagesTelechargeesDansCategorie.isEmpty()) {
                  for (Images image : imagesTelechargeesDansCategorie) {
-                     System.out.println("- Nom: " + image.getName() +
+                     System.out.println("\n Nom: " + image.getName() +
                                         ", Téléchargements: " + image.getDownload());
                  }
              } else {

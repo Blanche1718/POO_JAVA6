@@ -355,8 +355,7 @@ public class Admin extends User {
 
 	// Create Image
 	public void CreateImage(Scanner scanner) {
-		System.out.println("\nEntrez le nom de la nouvelle image : ");
-		String name = scanner.nextLine();
+		String name = getValidFileName(scanner);
 
 		System.out.print("\nEntrez le titre de l'image : ");
 		String title = scanner.nextLine();
@@ -373,12 +372,27 @@ public class Admin extends User {
 			System.out.println("\nL'image existe déjà.");
 		}
 	}
+	
+	public void DeleteImage(Scanner scanner) {
+		ImagesList();
+		System.out.print("\nEntrez le nom de l'image que vous souhaitez supprimer : ");
+		String deletedImagename = scanner.nextLine();
 
+		Images imageToDelete = findImageByName(deletedImagename);
+		if (imageToDelete != null) {
+			images.remove(imageToDelete);
+			System.out.println("\nImage supprimée : " + deletedImagename);
+			saveAllData();
+		} else {
+			System.out.println("\nL'image'" + deletedImagename + "' n'existe pas.");
+		}
+	}
+
+	
+	
 	// Submit Image User
 	public void SubmitImage(Scanner scanner, User connectuser) {
-		System.out.println("\nEntrez le nom de la nouvelle image : ");
-		String name = scanner.nextLine();
-
+		String name = getValidFileName(scanner);
 		System.out.print("\nEntrez le titre de l'image : ");
 		String title = scanner.nextLine();
 
@@ -885,6 +899,23 @@ public class Admin extends User {
         scanner.nextLine();  // Consomme le caractère de nouvelle ligne laissé par nextInt()
         return choice;
     }
+	
+	 public String getValidFileName(Scanner scanner) {
+	        String fileName = null;
+	        boolean valid = false;
+
+	        while (!valid) {
+	            System.out.print("\nEntrez un nom de fichier (ex : nom.jpg, nom.png, nom.bmp) : ");
+	            fileName = scanner.nextLine().trim();  // On récupère le nom de fichier et on enlève les espaces au début et à la fin
+
+	            if (fileName.matches("[a-zA-Z0-9_\\-]+\\.(jpg|png|bmp)$")) {
+	                valid = true;
+	            } else {
+	                System.out.println("\nNom de fichier invalide. Le nom doit être sous la forme 'nom.jpg', 'nom.png' ou 'nom.bmp'.");
+	            }
+	        }
+	        return fileName;  // Retourne le nom valide
+	    }
 
 }
 

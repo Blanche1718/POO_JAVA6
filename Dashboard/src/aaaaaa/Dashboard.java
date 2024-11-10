@@ -21,12 +21,13 @@ public class Dashboard {
             System.out.println("\n1. Gestion de catégories");
             System.out.println("\n2. Gestion des utilisateurs");
             System.out.println("\n3. Ajouter une image sur la plateforme");
-            System.out.println("\n4. Gérer les images soumises par les utilisateurs");
-            System.out.println("\n5. Afficher les statistiques de la plateforme");
+            System.out.println("\n4. Supprimer une image sur la plateforme");
+            System.out.println("\n5. Gérer les images soumises par les utilisateurs");
+            System.out.println("\n6. Afficher les statistiques de la plateforme");
             System.out.println("\n0. Quitter");
 
             System.out.print("\nSélectionnez une option : ");
-            int choix = getValidChoice(scanner, 0, 5);  // Utilisation de la méthode getValidChoice
+            int choix = getValidChoice(scanner, 0, 6);  // Utilisation de la méthode getValidChoice
 
             switch (choix) {
                 case 1:
@@ -39,9 +40,12 @@ public class Dashboard {
                     admin.CreateImage(scanner);
                     break;
                 case 4:
-                    admin.Approve_image(scanner);
+                    admin.DeleteImage(scanner);
                     break;
                 case 5:
+                    admin.Approve_image(scanner);
+                    break;
+                case 6:
                 	gestionStatistiques(scanner,stats);
                 	break;
                 case 0:
