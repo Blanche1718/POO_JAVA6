@@ -16,10 +16,12 @@ public class Admin extends User {
 	private static List<Category> categories;
 	private static List<User> users;
 	private static List<Images> images;
+	private static List<Images> favoris;
 	private static List<Images> images_soumises;
 	private static List<Images> images_téléchargées;
 	private boolean connected;
 	private final String userFilePath = "users.csv";
+	private final String favorisFilePath = "favoris.csv";
 	private final String categoryFilePath = "categories.csv";
 	private final String imageFilePath = "images.csv";
 	private final String imagesoumisesFilePath = "images_soumises.csv";
@@ -28,6 +30,7 @@ public class Admin extends User {
 	public Admin(String username, String email) {
 		super(username, email);
 		categories = new ArrayList<>();
+		favoris = new ArrayList<>();
 		users = new ArrayList<>();
 		images = new ArrayList<>();
 		images_soumises = new ArrayList<>();
@@ -40,6 +43,7 @@ public class Admin extends User {
 	public void initData() {
 		loadUsersFromCSV();
 		loadCategoriesFromCSV();
+		loadFavorisFromCSV();
 		loadImagesFromCSV();
 		loadImagesSoumisesFromCSV();
 		loadImagesTéléchargéesFromCSV();
@@ -47,6 +51,7 @@ public class Admin extends User {
 
 	public void saveAllData() {
 		saveUsersToCSV();
+		saveFavorisToCSV();
 		saveCategoriesToCSV();
 		saveImagesToCSV();
 		saveImagesSoumisesToCSV();
@@ -59,6 +64,9 @@ public class Admin extends User {
 
 	public List<User> getTotalUsers() {
 		return users;
+	}
+	public List<Images> getFavoris() {
+		return favoris;
 	}
 
 	public List<Images> getTotalDownload() {
@@ -618,6 +626,7 @@ public class Admin extends User {
 		if (imageToFavorite != null) {
 			user.addFavorite(imageToFavorite);
 			System.out.println("\nL'image a été bien ajouté aux favoris");
+			saveAllData();
 		} else {
 			System.out.println("\nCette image n'existe pas");
 		}
@@ -678,9 +687,21 @@ public class Admin extends User {
 			for (Images image : images) {
 				writer.printf("%s,%s,%s%n", image.getName(), image.getTitle(), image.getDescription());
 			}
-			System.out.println("Les images ont été sauvegardées dans images.csv.");
+			//System.out.println("Les images ont été sauvegardées dans images.csv.");
 		} catch (IOException e) {
 			System.out.println("Erreur lors de la sauvegarde des images : " + e.getMessage());
+		}
+	}
+	
+	public void saveFavorisToCSV() {
+		try (PrintWriter writer = new PrintWriter(new FileWriter("favoris.csv"))) {
+			writer.println("Name,Title,Description"); // En-tête
+			for (Images image : favoris) {
+				writer.printf("%s,%s,%s%n", image.getName(), image.getTitle(), image.getDescription());
+			}
+			//System.out.println("Les images ont été sauvegardées dans images.csv.");
+		} catch (IOException e) {
+			System.out.println("Erreur lors de la sauvegarde des favoris : " + e.getMessage());
 		}
 	}
 
@@ -794,6 +815,26 @@ public class Admin extends User {
 			System.out.println("\nErreur lors du chargement des images : " + e.getMessage());
 		}
 	}
+	
+	
+	public void loadFavorisFromCSV() {
+		favoris.clear();
+		try (BufferedReader reader = new BufferedReader(new FileReader("favoris.csv"))) {
+			String line = reader.readLine(); // Ignorer l'en-tête
+			while ((line = reader.readLine()) != null) {
+				String[] fields = line.split(",");
+				String name = fields[0];
+				String title = fields[1];
+				String description = fields[2];
+
+				Images image = new Images(name, title, description, true, 0); // Ajuster selon ton constructeur
+				favoris.add(image);
+			}
+			// System.out.println("Les images ont été chargées depuis images.csv.");
+		} catch (IOException e) {
+			System.out.println("\nErreur lors du chargement des favoris : " + e.getMessage());
+		}
+	}
 
 	public void loadImagesSoumisesFromCSV() {
 		images_soumises.clear();
@@ -836,6 +877,7 @@ public class Admin extends User {
 
 	public void initializeFiles() {
 		createFileIfNotExists(userFilePath);
+		createFileIfNotExists(favorisFilePath);
 		createFileIfNotExists(categoryFilePath);
 		createFileIfNotExists(imageFilePath);
 		createFileIfNotExists(imagesoumisesFilePath);
