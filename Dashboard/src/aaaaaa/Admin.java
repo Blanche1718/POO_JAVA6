@@ -439,12 +439,17 @@ public class Admin extends User {
 
 	// Approuver image
 	void Approve_image(Scanner scanner) {
-		boolean exit = false;
-		while (!exit) {
-			System.out.println("\n--------- Images soumises ----------");
+		boolean exit5 = false;
+		while (!exit5) {
+			System.out.println("\n┌─────────────── Images Soumises ───────────────┐");
+	        System.out.println("│ 1. Approuver une image                        │");
+	        System.out.println("│ 2. Désapprouver une image                     │");      
+	        System.out.println("│ 0. Quitter                                    │");
+	        System.out.println("└───────────────────────────────────────────────┘");
+			/*System.out.println("\n--------- Images soumises ----------");
 			System.out.println("\n1. Approuver une image");
 			System.out.println("\n2. Desapprouver une image");
-			System.out.println("\n0. Quitter");
+			System.out.println("\n0. Quitter");*/
 
 			System.out.print("\nSélectionnez une option : ");
 			int choix = getValidChoice(scanner, 0, 2);
@@ -484,7 +489,7 @@ public class Admin extends User {
 
 			case 0:
 				System.out.println("\nAu revoir !");
-				connected = false;
+				exit5 = true;
 				break;
 
 			default:
@@ -514,14 +519,25 @@ public class Admin extends User {
 		connected = true;
 
 		while (connected) {
-			System.out.println("\n**********************************--- Menu -----************************************************");
+			
+			System.out.println("\n┌───────────────        MENU           ────────────────┐");
+	        System.out.println("│ 1.  Télécharger une image                            │");
+	        System.out.println("│ 2. Ajouter une image aux favoris                     │");
+	        System.out.println("│ 3.Liker une image                                    │");
+	        System.out.println("│ 4. Afficher la galerie                               │");
+	        System.out.println("│ 5. Afficher les favoris                              │");
+	        System.out.println("│ 6. Soummettre une image                              │");
+	        System.out.println("│ 0. Deconnecter cet utilisateur                       │");
+	        System.out.println("└──────────────────────────────────────────────────────┘");
+			/*System.out.println("\n**********************************--- Menu -----************************************************");
 			System.out.println("\n1. Télécharger une image");
 			System.out.println("\n2. Ajouter une image aux favoris");
 			System.out.println("\n3. Liker une image");
 			System.out.println("\n4. Afficher la galerie");
 			System.out.println("\n5. Afficher les favoris");
 			System.out.println("\n6. Soummettre une image");
-			System.out.println("\n0. Quitter");
+			System.out.println("\n0. Quitter");*/
+			
 
 			System.out.print("\nSélectionnez une option : ");
 			int choix = getValidChoice(scanner, 0, 6);
@@ -550,7 +566,7 @@ public class Admin extends User {
 				break;
 
 			case 0:
-				System.out.println("\nAu revoir !");
+				System.out.println("\n Déconnecté(e) avec succès !");
 				connected = false;
 				break;
 			default:
